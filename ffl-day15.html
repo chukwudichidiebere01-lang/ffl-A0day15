@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Fast French Lab · Jour 15 · Au Marché</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#FEFDF5;--bg2:#FFFFFF;--bg3:#FAF5E8;--bg4:#F2EAD4;
+  --yw:#C8890A;--yw2:#A87000;--ywb:rgba(200,137,10,.13);--ywb2:rgba(200,137,10,.06);
+  --gn:#2E7D32;--gn2:#1B5E20;--gnb:rgba(46,125,50,.12);--gnb2:rgba(46,125,50,.06);
+  --tc:#C14E28;--tc2:#9C3A18;--tcb:rgba(193,78,40,.12);--tcb2:rgba(193,78,40,.06);
+  --bl:#2B5EA7;--blb:rgba(43,94,167,.1);
+  --rd:#B33220;--rdb:rgba(179,50,32,.08);
+  --txt:#18100A;--txt2:#3A2010;--mut:#7A6040;
+  --bdr:rgba(120,80,20,.18);--bdr2:rgba(120,80,20,.1);
+  --sh:0 4px 22px rgba(24,16,10,.09);--sh2:0 2px 10px rgba(0,0,0,.04);
+  --r:16px;--rsm:10px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;font-size:16px;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Syne',sans-serif;letter-spacing:-.1px}
+.fr{font-family:'Spectral',serif}
+
+/* WELCOME */
+#wModal{position:fixed;inset:0;z-index:3000;background:linear-gradient(160deg,#FEFDF5 0%,#FAF0D0 60%,#FEFDF5 100%);display:flex;align-items:center;justify-content:center;padding:14px;overflow-y:auto}
+.wCard{background:var(--bg2);border-radius:22px;padding:28px 22px 24px;max-width:420px;width:100%;box-shadow:0 24px 60px rgba(120,80,20,.18);border:1.5px solid var(--bdr2)}
+.wBadge{display:inline-flex;align-items:center;gap:4px;background:var(--ywb);color:var(--yw2);border:1px solid rgba(200,137,10,.28);border-radius:50px;padding:3px 13px;font-size:.61rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;font-family:'Syne',sans-serif;margin-bottom:9px}
+.wLogo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;letter-spacing:-.3px;text-align:center;color:var(--txt)}.wLogo em{color:var(--tc);font-style:normal}
+.wSub{font-size:.77rem;color:var(--mut);text-align:center;margin-bottom:16px;line-height:1.65}
+.wFg{margin-bottom:11px}.wFg label{display:block;font-size:.69rem;font-weight:700;margin-bottom:4px;color:var(--txt2);text-transform:uppercase;letter-spacing:.7px}
+.wFg input{width:100%;padding:11px 13px;background:var(--bg3);border:1.5px solid var(--bdr2);border-radius:10px;font-size:.9rem;outline:none;color:var(--txt);font-family:'DM Sans',sans-serif;transition:border-color .2s}
+.wFg input:focus{border-color:var(--tc)}.wFg input.werr{border-color:var(--rd)}
+.wErr{font-size:.69rem;color:var(--rd);margin-top:3px;display:none;font-weight:700}
+.moodRow{display:flex;gap:6px;justify-content:center;margin:6px 0 3px}
+.moodBtn{font-size:1.4rem;padding:7px;border:2px solid var(--bdr2);border-radius:9px;background:var(--bg3);cursor:pointer;transition:all .18s;min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center}
+.moodBtn.sel{border-color:var(--tc);background:var(--tcb);transform:scale(1.1)}
+.wBtn{width:100%;padding:14px;background:linear-gradient(135deg,var(--tc),var(--tc2));color:#fff;border:none;border-radius:50px;font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;margin-top:9px;letter-spacing:.2px;transition:opacity .2s;box-shadow:0 5px 22px rgba(193,78,40,.35)}
+.wBtn:hover{opacity:.88}
+
+/* HEADER */
+.hdr{background:rgba(254,253,245,.97);border-bottom:1px solid var(--bdr2);padding:10px 15px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;backdrop-filter:blur(14px)}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:.85rem;letter-spacing:-.2px;color:var(--txt)}.logo em{color:var(--tc);font-style:normal}
+.hdrRight{display:flex;align-items:center;gap:9px}
+.dayPill{background:linear-gradient(135deg,var(--tc),var(--tc2));color:#fff;border-radius:50px;padding:4px 14px;font-size:.7rem;font-weight:700;font-family:'Syne',sans-serif;letter-spacing:.3px}
+#musicToggle{background:var(--ywb);border:1.5px solid rgba(200,137,10,.3);border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.9rem;transition:all .2s;color:var(--yw2)}
+#musicToggle.on{background:var(--yw);color:#fff;border-color:var(--yw)}
+
+/* PROGRESS */
+.progWrap{padding:6px 14px 5px;background:rgba(254,253,245,.96);border-bottom:1px solid var(--bdr2)}
+.progSegs{display:flex;gap:3px}.pSeg{flex:1;height:4px;border-radius:99px;background:var(--bdr2);transition:background .4s}
+.pSeg.done{background:var(--tc)}.pSeg.active{background:var(--yw)}
+.progLbl{display:flex;justify-content:space-between;font-size:.5rem;color:var(--mut);margin-top:3px}
+
+/* LAYOUT */
+.wrap{max-width:700px;margin:0 auto;padding:14px 12px 130px}
+.dots{display:flex;gap:5px;justify-content:center;margin-bottom:16px;flex-wrap:wrap}
+.dot{width:32px;height:32px;border-radius:50%;background:var(--bg3);color:var(--mut);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;cursor:pointer;transition:all .22s;border:2px solid var(--bdr2)}
+.dot.active{background:var(--tc);color:#fff;border-color:var(--tc)}.dot.done{background:var(--tcb);color:var(--tc2);border-color:var(--tc)}
+.sec{display:none}.sec.show{display:block;animation:sUp .32s ease}
+@keyframes sUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* CARDS */
+.card{background:var(--bg2);border-radius:var(--r);padding:18px;margin-bottom:14px;border:1px solid var(--bdr2);box-shadow:var(--sh)}
+.cardHdr{display:flex;align-items:center;gap:11px;padding-bottom:13px;border-bottom:1px solid var(--bdr2);margin-bottom:15px}
+.cardIco{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+.icoY{background:var(--ywb);border:1px solid rgba(200,137,10,.22)}.icoG{background:var(--gnb);border:1px solid rgba(46,125,50,.2)}.icoT{background:var(--tcb);border:1px solid rgba(193,78,40,.2)}.icoB{background:var(--blb);border:1px solid rgba(43,94,167,.18)}
+.cardTitle{font-size:.97rem;font-weight:700;color:var(--txt);font-family:'Syne',sans-serif}.cardSub{font-size:.69rem;color:var(--mut);margin-top:2px}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:4px;border-radius:50px;padding:3px 12px;font-size:.61rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:11px;font-family:'Syne',sans-serif}
+.bYw{background:var(--ywb);color:var(--yw2);border:1px solid rgba(200,137,10,.28)}
+.bGn{background:var(--gnb);color:var(--gn2);border:1px solid rgba(46,125,50,.25)}
+.bTc{background:var(--tcb);color:var(--tc2);border:1px solid rgba(193,78,40,.25)}
+.bBl{background:var(--blb);color:var(--bl);border:1px solid rgba(43,94,167,.22)}
+
+/* BANNERS */
+.tcfBanner{background:var(--ywb2);border:1px solid rgba(200,137,10,.3);border-radius:var(--rsm);padding:9px 13px;margin-bottom:13px;font-size:.78rem;color:var(--yw2);line-height:1.65;font-weight:600}
+.coach{background:var(--bg3);border:1.5px solid var(--bdr2);border-radius:var(--r);padding:14px;margin-bottom:13px;display:flex;gap:11px;align-items:flex-start}
+.coachAv{font-size:1.9rem;flex-shrink:0;margin-top:1px}
+.coachName{font-size:.59rem;font-weight:700;color:var(--tc2);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:3px;font-family:'Syne',sans-serif}
+.coachTxt{font-size:.82rem;color:var(--txt2);line-height:1.65}.coachTxt strong{color:var(--txt)}
+.infoBox{background:var(--bg3);border:1px solid var(--bdr2);border-radius:var(--rsm);padding:9px 12px;margin-bottom:12px;font-size:.8rem;color:var(--mut);line-height:1.6}.infoBox strong{color:var(--txt)}
+
+/* CHUNK CARDS */
+.chunkGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:13px}
+@media(max-width:430px){.chunkGrid{grid-template-columns:1fr}}
+.chunkCard{background:var(--bg2);border:1.5px solid var(--bdr2);border-radius:var(--r);padding:14px;cursor:pointer;transition:all .2s;box-shadow:var(--sh2)}
+.chunkCard:hover{border-color:var(--tc);transform:translateY(-2px);box-shadow:var(--sh)}
+.chunkFr{font-family:'Spectral',serif;font-size:1rem;font-weight:600;color:var(--tc2);margin-bottom:3px;line-height:1.4}
+.chunkEn{font-size:.72rem;color:var(--mut);filter:blur(3.5px);transition:filter .25s;cursor:pointer;margin-bottom:7px;line-height:1.5}.chunkEn.rev{filter:none}
+.chunkNote{font-size:.68rem;color:var(--yw2);font-weight:600;margin-top:4px;display:none}
+.revBtn{font-size:.63rem;color:var(--tc2);cursor:pointer;font-weight:700;background:none;border:none;padding:0;font-family:'DM Sans',sans-serif;display:block;margin-bottom:4px}
+
+/* VOCAB CARDS */
+.vocabGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:13px}
+@media(max-width:430px){.vocabGrid{grid-template-columns:repeat(2,1fr)}}
+.vocabCard{background:var(--bg2);border:1.5px solid var(--bdr2);border-radius:11px;padding:11px 8px;text-align:center;cursor:pointer;transition:all .2s;box-shadow:var(--sh2)}
+.vocabCard:hover{border-color:var(--tc);background:var(--tcb2);transform:translateY(-2px)}
+.vcEmo{font-size:1.7rem;display:block;margin-bottom:3px}
+.vcFr{font-size:.78rem;font-weight:700;color:var(--tc2);font-family:'Syne',sans-serif;display:block;margin-bottom:2px}
+.vcEn{font-size:.63rem;color:var(--mut);display:block;filter:blur(3.5px);transition:filter .25s}.vcEn.rev{filter:none}
+.vcRevBtn{font-size:.6rem;color:var(--yw2);cursor:pointer;font-weight:700;background:none;border:none;padding:0;font-family:'DM Sans',sans-serif;display:block;margin-top:3px}
+
+/* VOCAB FLOATERS */
+.vf{cursor:pointer;color:var(--tc2);font-weight:700;border-bottom:1.5px dashed rgba(193,78,40,.4);position:relative}
+.vfT{display:none;position:absolute;bottom:130%;left:50%;transform:translateX(-50%);background:var(--bg2);border:1.5px solid var(--bdr2);border-radius:var(--rsm);padding:9px 12px;min-width:190px;font-size:.74rem;z-index:999;box-shadow:var(--sh);line-height:1.6;font-style:normal;color:var(--txt);white-space:normal}
+.vfT::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--bg2)}
+.vf:hover .vfT{display:block}
+.vfEn{font-weight:700;color:var(--tc2)}.vfIpa{color:var(--mut);font-size:.68rem}
+
+/* PREPOSITION CARDS */
+.prepGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:13px}
+.prepCard{background:var(--bg2);border:2px solid var(--bdr2);border-radius:var(--r);padding:13px;box-shadow:var(--sh2)}
+.prepWord{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:var(--tc2);margin-bottom:4px}
+.prepEn{font-size:.72rem;color:var(--mut);margin-bottom:8px}
+.prepEx{font-family:'Spectral',serif;font-size:.85rem;color:var(--txt2);line-height:1.75;font-style:italic}
+.prepExEn{font-size:.7rem;color:var(--mut);filter:blur(3px);transition:filter .25s;cursor:pointer}.prepExEn.rev{filter:none}
+
+/* TWO-VOICE DIALOGUE */
+.dialogueWrap{margin-bottom:13px}
+.dlgLine{display:flex;gap:10px;margin-bottom:9px;align-items:flex-start}
+.dlgLine.buyer{flex-direction:row}
+.dlgLine.seller{flex-direction:row-reverse}
+.dlgAvatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.dlgAvatar.buyer{background:var(--blb);border:2px solid rgba(43,94,167,.25)}
+.dlgAvatar.seller{background:var(--ywb);border:2px solid rgba(200,137,10,.25)}
+.dlgBubble{max-width:75%;border-radius:14px;padding:10px 13px;position:relative}
+.dlgBubble.buyer{background:var(--blb);border:1px solid rgba(43,94,167,.2);border-top-left-radius:4px}
+.dlgBubble.seller{background:var(--ywb);border:1px solid rgba(200,137,10,.2);border-top-right-radius:4px}
+.dlgSpkName{font-size:.59rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:3px;font-family:'Syne',sans-serif}
+.dlgSpkName.buyer{color:var(--bl)}.dlgSpkName.seller{color:var(--yw2)}
+.dlgFr{font-family:'Spectral',serif;font-size:.9rem;color:var(--txt);line-height:1.6;margin-bottom:3px}
+.dlgEnWrap{font-size:.7rem;color:var(--mut);filter:blur(3px);transition:filter .25s;cursor:pointer;font-style:italic;line-height:1.4}.dlgEnWrap.rev{filter:none}
+.dlgAudBtn{font-size:.65rem;margin-top:5px;background:none;border:none;cursor:pointer;color:var(--tc2);font-weight:700;padding:0;font-family:'DM Sans',sans-serif}
+
+/* ANNOUNCEMENT BOARD */
+.announceBoard{background:linear-gradient(160deg,#1A0E04,#2E1808);border-radius:var(--r);padding:18px;margin-bottom:13px;border:2px solid rgba(200,137,10,.3)}
+.announceLabel{font-family:'Syne',sans-serif;font-size:.62rem;font-weight:700;color:var(--yw);text-transform:uppercase;letter-spacing:2px;margin-bottom:11px;text-align:center}
+.announceTxt{font-family:'Spectral',serif;font-size:.92rem;color:#F5E8C8;line-height:2.0;padding:13px;background:rgba(255,255,255,.04);border-radius:var(--rsm);border-left:3px solid var(--yw)}
+.announceTxt strong{color:var(--yw)}
+.announceEnWrap{font-size:.74rem;color:rgba(220,180,100,.65);filter:blur(3.5px);transition:filter .25s;margin-top:8px;line-height:1.65;cursor:pointer;font-style:italic}.announceEnWrap.rev{filter:none}
+.keywordsBox{background:rgba(255,255,255,.06);border-radius:var(--rsm);padding:11px;margin-top:10px;display:none}
+.keywordsBox.show{display:block}
+.kwLabel{font-size:.6rem;font-weight:700;color:var(--yw);text-transform:uppercase;letter-spacing:1px;margin-bottom:7px;font-family:'Syne',sans-serif}
+.kwRow{display:flex;gap:6px;flex-wrap:wrap}
+.kwChip{background:rgba(200,137,10,.2);color:var(--yw);border:1px solid rgba(200,137,10,.4);border-radius:50px;padding:3px 10px;font-size:.72rem;font-weight:700;cursor:pointer}
+
+/* MCQ */
+.mcqW{background:var(--bg2);border:1.5px solid var(--bdr2);border-radius:var(--r);padding:13px;margin-bottom:11px;box-shadow:var(--sh2)}
+.mcqFrQ{font-size:.9rem;font-weight:700;color:var(--txt);font-family:'Spectral',serif;line-height:1.55;margin-bottom:2px}
+.mcqEnQ{font-size:.71rem;color:var(--mut);font-style:italic;margin-bottom:8px}
+.mcqQ{font-size:.87rem;font-weight:600;color:var(--txt);margin-bottom:9px;line-height:1.5}
+.mcqO{border:1.5px solid var(--bdr2);border-radius:10px;padding:10px 12px;margin-bottom:6px;cursor:pointer;font-size:.83rem;transition:all .18s;min-height:44px;display:flex;align-items:center;gap:8px;color:var(--txt);background:var(--bg3)}
+.mcqO:hover{border-color:var(--tc);background:var(--tcb2)}.mcqO.co{border-color:var(--gn)!important;background:var(--gnb)!important;color:var(--gn2);font-weight:700}
+.mcqO.wo{border-color:var(--rd)!important;background:var(--rdb)!important;color:var(--rd);font-weight:700}.mcqO.dis{pointer-events:none}
+.mcqFb{font-size:.76rem;margin-top:6px;padding:8px 11px;border-radius:8px;display:none;font-weight:600;line-height:1.55}.mcqFb.show{display:block}
+
+/* WRITING AREA */
+.writeTA{width:100%;background:var(--bg2);border:2px solid var(--bdr2);border-radius:var(--rsm);padding:12px;font-size:.95rem;font-family:'Spectral',serif;outline:none;color:var(--txt);resize:vertical;line-height:1.8;min-height:90px;transition:border-color .2s}
+.writeTA:focus{border-color:var(--tc)}
+.writeTA::placeholder{color:var(--mut);font-style:italic;font-size:.82rem}
+.wcD{font-size:.69rem;color:var(--mut);text-align:right;margin-top:4px}
+.accentBar{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0 4px}
+.acBtn{width:34px;height:34px;border-radius:8px;border:1.5px solid var(--bdr2);background:var(--bg2);font-family:'Spectral',serif;font-size:1.05rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;color:var(--txt2)}
+.acBtn:hover{border-color:var(--tc);background:var(--tcb);color:var(--tc2);transform:translateY(-1px)}
+
+/* STREAK */
+.streakToast{position:fixed;top:75px;left:50%;transform:translateX(-50%);z-index:550;background:linear-gradient(135deg,var(--yw),var(--yw2));color:#fff;border-radius:50px;padding:9px 22px;font-size:.82rem;font-weight:700;box-shadow:0 4px 20px rgba(200,137,10,.4);display:none;white-space:nowrap;font-family:'Syne',sans-serif;animation:bounceIn .35s ease}
+@keyframes bounceIn{0%{opacity:0;transform:translateX(-50%) scale(.7)}70%{transform:translateX(-50%) scale(1.08)}100%{opacity:1;transform:translateX(-50%) scale(1)}}
+
+/* BUTTONS */
+.bTc_{background:linear-gradient(135deg,var(--tc),var(--tc2));color:#fff;border:none;border-radius:50px;min-height:42px;padding:0 18px;font-size:.8rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:all .18s;font-family:'DM Sans',sans-serif;box-shadow:0 3px 14px rgba(193,78,40,.28)}
+.bTc_:hover{opacity:.87;transform:translateY(-1px)}
+.bYw_{background:linear-gradient(135deg,var(--yw),var(--yw2));color:#fff;border:none;border-radius:50px;min-height:40px;padding:0 16px;font-size:.78rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;font-family:'DM Sans',sans-serif}
+.bGn_{background:linear-gradient(135deg,var(--gn),var(--gn2));color:#fff;border:none;border-radius:50px;min-height:42px;padding:0 18px;font-size:.8rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;font-family:'DM Sans',sans-serif}
+.bOut{background:transparent;color:var(--tc2);border:1.5px solid rgba(193,78,40,.35);border-radius:50px;min-height:40px;padding:0 15px;font-size:.77rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:all .18s;font-family:'DM Sans',sans-serif}
+.bOut:hover{background:var(--tcb)}
+.bStt{background:linear-gradient(135deg,#8B2020,#6A1010);color:#fff;border:none;border-radius:50px;min-height:40px;padding:0 16px;font-size:.77rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;font-family:'DM Sans',sans-serif}
+.bStt.on{animation:sttP 1s infinite}
+@keyframes sttP{0%,100%{box-shadow:0 0 0 0 rgba(139,32,32,.5)}50%{box-shadow:0 0 0 10px rgba(139,32,32,0)}}
+.bPb{background:var(--bg3);color:var(--txt2);border:1.5px solid var(--bdr2);border-radius:50px;min-height:38px;padding:0 13px;font-size:.75rem;font-weight:700;cursor:pointer;display:none;align-items:center;gap:5px;font-family:'DM Sans',sans-serif}
+.bPb.show{display:inline-flex}
+.redoB{background:var(--bg3);color:var(--mut);border:1px solid var(--bdr2);border-radius:50px;padding:7px 14px;font-size:.71rem;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:4px;transition:all .18s}
+.redoB:hover{border-color:var(--tc);color:var(--tc2)}
+.audRow{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px;align-items:center}
+.navBar{display:flex;justify-content:space-between;margin-top:20px;gap:10px}
+.bNxt{background:linear-gradient(135deg,var(--tc),var(--tc2));color:#fff;border:none;border-radius:50px;min-height:50px;padding:0 28px;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Syne',sans-serif;box-shadow:0 5px 22px rgba(193,78,40,.32);letter-spacing:.2px}
+.bNxt:hover{transform:translateY(-2px)}
+.bPrv{background:var(--bg2);color:var(--txt2);border:1.5px solid var(--bdr2);border-radius:50px;min-height:48px;padding:0 20px;font-size:.83rem;font-weight:600;cursor:pointer;transition:all .18s}
+.bPrv:hover{border-color:var(--tc);color:var(--tc2)}
+
+/* SCORES & COMPLETION */
+.scoreBox{background:var(--gnb);border:1.5px solid var(--gn);border-radius:var(--rsm);padding:13px;text-align:center;display:none;margin-top:10px}
+.scoreBox.show{display:block}.scoreN{font-size:1.9rem;font-weight:900;color:var(--gn2);font-family:'Syne',sans-serif}
+.coachFb{background:var(--bg3);border:1.5px solid var(--bdr2);border-radius:var(--r);padding:14px;margin-top:12px;display:none}
+.coachFb.show{display:block}.cfbLbl{font-size:.59rem;font-weight:700;color:var(--tc2);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:6px;font-family:'Syne',sans-serif}
+.cfbTxt{font-size:.83rem;color:var(--txt2);line-height:1.7}.cfbLoad{text-align:center;color:var(--mut);font-size:.82rem;padding:8px}
+.sttLiveBox{background:var(--tcb2);border:1px dashed rgba(193,78,40,.3);border-radius:var(--rsm);padding:8px 11px;margin-top:7px;font-size:.82rem;color:var(--txt2);font-style:italic;display:none}
+.sttLiveBox.show{display:block}
+.starterChips{display:flex;flex-wrap:wrap;gap:6px;margin:9px 0}
+.starterC{background:var(--tcb);border:1px solid rgba(193,78,40,.25);border-radius:50px;padding:5px 11px;font-size:.73rem;cursor:pointer;color:var(--tc2);font-weight:600;transition:all .18s;font-family:'Spectral',serif}
+.starterC:hover{background:var(--tc);color:#fff}
+
+/* CAN DO CERTIFICATE */
+.certCard{background:linear-gradient(160deg,#FFFBEF,#FFF5D6,#FFFBEF);border:2px solid rgba(200,137,10,.4);border-radius:22px;padding:24px 20px;text-align:center;margin:18px 0;box-shadow:0 8px 40px rgba(200,137,10,.18)}
+.certTop{font-family:'Syne',sans-serif;font-size:.62rem;font-weight:800;color:var(--yw2);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+.certBadge{font-size:3rem;margin-bottom:8px;display:block}
+.certTitle{font-family:'Syne',sans-serif;font-size:1.35rem;font-weight:800;color:var(--tc2);margin-bottom:5px}
+.certSub{font-size:.78rem;color:var(--mut);margin-bottom:18px}
+.certItems{text-align:left;background:rgba(255,255,255,.7);border-radius:var(--r);padding:14px 16px;margin-bottom:14px}
+.certItem{display:flex;align-items:flex-start;gap:8px;padding:5px 0;font-size:.84rem;color:var(--txt2);line-height:1.55;border-bottom:1px solid rgba(200,137,10,.12)}
+.certItem:last-child{border-bottom:none}
+.certCheckmark{font-size:1rem;flex-shrink:0;margin-top:1px}
+.certFooter{font-size:.68rem;color:var(--yw2);font-weight:700;text-transform:uppercase;letter-spacing:1px;font-family:'Syne',sans-serif}
+
+/* CONFETTI + TOAST + FLOAT */
+.cfB{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;display:none}
+.cf{position:absolute;width:7px;height:7px;border-radius:2px;animation:fall 2.2s ease forwards}
+@keyframes fall{0%{opacity:1;transform:translateY(-10px) rotate(0deg)}100%{opacity:0;transform:translateY(100vh) rotate(720deg)}}
+#toast{position:fixed;top:68px;left:50%;transform:translateX(-50%);z-index:600;background:var(--txt);color:#fff;border-radius:50px;padding:8px 18px;font-size:.75rem;font-weight:700;box-shadow:var(--sh);display:none;white-space:nowrap;max-width:90vw;font-family:'DM Sans',sans-serif}
+.cfloat{position:fixed;bottom:13px;right:13px;z-index:500;display:flex;flex-direction:column;align-items:flex-end}
+.cbubble{background:var(--bg2);border-radius:14px;border:1.5px solid var(--bdr2);padding:10px 13px;max-width:215px;margin-bottom:8px;box-shadow:var(--sh);font-size:.76rem;color:var(--txt2);line-height:1.55;display:none}
+.cbubble.show{display:block;animation:sUp .28s ease}
+.cbName{font-size:.58rem;font-weight:700;color:var(--tc2);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;font-family:'Syne',sans-serif}
+.cav{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--tc),var(--tc2));border:3px solid var(--bg2);display:flex;align-items:center;justify-content:center;font-size:1.35rem;cursor:pointer;animation:flt 3s ease-in-out infinite;box-shadow:var(--sh)}
+@keyframes flt{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+#dictFab{position:fixed;bottom:72px;right:13px;z-index:400;width:44px;height:44px;border-radius:50%;background:var(--bg2);color:var(--tc2);border:1.5px solid var(--bdr2);font-size:1.05rem;cursor:pointer;box-shadow:var(--sh);display:none;align-items:center;justify-content:center;transition:all .18s}
+#dictFab:hover{border-color:var(--tc);transform:scale(1.08)}
+#dictP{position:fixed;bottom:0;left:0;right:0;z-index:600;background:var(--bg2);border-radius:22px 22px 0 0;padding:17px 15px 28px;box-shadow:0 -8px 36px rgba(120,80,20,.12);transform:translateY(100%);transition:transform .3s;max-height:72vh;overflow-y:auto;border-top:1.5px solid var(--bdr2)}
+#dictP.open{transform:translateY(0)}
+.dpH{width:34px;height:3px;background:var(--bdr2);border-radius:99px;margin:0 auto 13px}
+.dpRow{display:flex;gap:7px;margin:10px 0}
+#dpW{flex:1;padding:9px 12px;background:var(--bg3);border:1.5px solid var(--bdr2);border-radius:50px;font-size:.86rem;outline:none;color:var(--txt);font-family:'DM Sans',sans-serif}
+#dpW:focus{border-color:var(--tc)}
+#dpGo{background:linear-gradient(135deg,var(--tc),var(--tc2));color:#fff;border:none;border-radius:50px;padding:9px 16px;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:700;cursor:pointer}
+#dpLks{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
+.dpLk{background:var(--tcb);color:var(--tc2);padding:7px 13px;border-radius:50px;font-size:.77rem;font-weight:700;border:1px solid var(--bdr2);cursor:pointer;transition:all .18s}
+.dpLk:hover{background:var(--tc);color:#fff}
+#dpX{position:absolute;top:13px;right:13px;background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--mut)}
+#compSc{display:none;padding:2rem 1rem 4rem;max-width:520px;margin:0 auto}
+#compSc.show{display:block;animation:sUp .4s ease}
+</style></head><body>
+<div class="cfB" id="cfB"></div>
+<div class="streakToast" id="streakToast"></div><div id="wModal">
+<div class="wCard" style="text-align:center">
+  <div class="wBadge">🛒 Jour 15 — Au Marché</div>
+  <div class="wLogo">FAST <em>FRENCH</em> LAB</div>
+  <p class="wSub" style="margin-top:5px">Market phrases · Dialogues · Prepositions · Announcements<br>For daily life, travel AND TEF/TCF Canada</p>
+  <div style="margin-bottom:12px">
+    <div style="font-size:.6rem;font-weight:700;color:var(--tc2);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">How are you feeling today?</div>
+    <div class="moodRow" id="mSRow">
+      <button class="moodBtn" data-mood="😩">😩</button><button class="moodBtn" data-mood="😐">😐</button>
+      <button class="moodBtn" data-mood="🙂">🙂</button><button class="moodBtn" data-mood="😄">😄</button>
+      <button class="moodBtn" data-mood="🔥">🔥</button>
+    </div>
+  </div>
+  <div class="wFg"><label>Your Full Name</label><input type="text" id="wName" placeholder="Ex: Amara Diallo" autocomplete="name"><p class="wErr" id="wNE">Please enter your name.</p></div>
+  <div class="wFg"><label>Email Address</label><input type="email" id="wEmail" placeholder="Ex: amara@email.com" autocomplete="email"><p class="wErr" id="wEE">Please enter a valid email.</p></div>
+  <button class="wBtn" id="wStartBtn">🛒 Start Day 15 — Commencer !</button>
+</div>
+</div>
+<div id="toast"></div>
+<div class="hdr">
+  <div class="logo">FAST <em>FRENCH</em> LAB</div>
+  <div class="hdrRight">
+    <button id="musicToggle" title="Background music">🎵</button>
+    <div class="dayPill">🛒 JOUR 15</div>
+  </div>
+</div>
+<div class="progWrap">
+  <div class="progSegs" id="pSegs"></div>
+  <div class="progLbl"><span>Chunks</span><span>Vocab</span><span>Prépositions</span><span>Dialogues</span><span>Annonces</span><span>Écriture</span><span>Certificat</span></div>
+</div>
+<div class="wrap">
+<div class="dots" id="dotsW"></div>
+
+<!-- SEC 1: CHUNKS -->
+<div class="sec show" id="sec1">
+<div class="card">
+  <div class="cardHdr"><div class="cardIco icoT">🗣️</div><div><div class="cardTitle">Part 1 — Les Chunks du Marché</div><div class="cardSub">Phrases you say · Phrases you hear · Ready to use NOW</div></div></div>
+  <div class="tcfBanner">📌 <strong>TEF/TCF + Everyday French:</strong> At a market, at a Canadian grocery store, at a neighbour's — these chunks work everywhere. Click to expand, reveal the English, then 🔊 to hear and 🎤 to repeat!</div>
+  <div class="coach"><div class="coachAv">👩🏾‍🏫</div><div><div class="coachName">Coach Linda</div><div class="coachTxt">"Welcome to the market — <strong>bienvenue au marché!</strong> Today we learn in context: how people really talk when they buy and sell. Every phrase here comes directly from real French market conversations. Click each card — the English is hidden. Try to understand the French first!"</div></div></div>
+  <div class="badge bTc">🛍️ Asking & Buying — L'acheteur</div>
+  <div class="chunkGrid" id="buyerChunks"></div>
+  <div class="badge bYw" style="margin-top:4px">🏪 Selling & Responding — Le vendeur</div>
+  <div class="chunkGrid" id="sellerChunks"></div>
+  <div class="badge bGn" style="margin-top:4px">💬 Negotiation chunks</div>
+  <div class="chunkGrid" id="negotiateChunks"></div>
+  <div class="badge bTc" style="margin-top:14px">🎯 Chunk Quiz — What do you say?</div>
+  <div id="chunkQuiz"></div>
+  <div class="audRow"><button class="bTc_" id="checkCQBtn">✅ Check</button><button class="redoB" id="resetCQBtn">🔄 Redo</button></div>
+  <div class="scoreBox" id="cqScore"><div class="scoreN" id="cqScoreN">0/5</div><p style="font-size:.77rem;color:var(--gn2);margin-top:4px;font-weight:600">Chunk Quiz</p></div>
+</div>
+<div class="navBar"><div></div><button class="bNxt" id="s1Next">Vocabulary →</button></div>
+</div>
+
+<!-- SEC 2: VOCABULARY -->
+<div class="sec" id="sec2">
+<div class="card">
+  <div class="cardHdr"><div class="cardIco icoY">🥦</div><div><div class="cardTitle">Part 2 — Vocabulaire du Marché</div><div class="cardSub">Fresh foods · Market terms · Prices · Weights</div></div></div>
+  <div class="badge bTc">🍅 Fruits & Légumes frais</div>
+  <div class="vocabGrid" id="foodVocab"></div>
+  <div class="audRow" style="margin-bottom:13px"><button class="bTc_" id="hearAllFoodBtn">🔊 Hear All</button><button class="bOut" id="revAllFoodBtn">🇬🇧 Reveal All</button></div>
+  <div class="badge bYw">🏪 Termes du marché · Market terms</div>
+  <div class="vocabGrid" id="marketVocab"></div>
+  <div class="audRow" style="margin-bottom:13px"><button class="bTc_" id="hearAllMktBtn">🔊 Hear All</button><button class="bOut" id="revAllMktBtn">🇬🇧 Reveal All</button></div>
+  <div class="badge bGn" style="margin-top:4px">🔢 Quantities & Prices</div>
+  <div style="background:var(--bg3);border:1.5px solid var(--bdr2);border-radius:var(--r);padding:14px;margin-bottom:13px;font-size:.87rem;line-height:2.2;font-family:'Spectral',serif;color:var(--txt2)">
+    <span class="vf">un kilo de<span class="vfT"><span class="vfEn">a kilo of</span><span class="vfIpa">[œ̃ kilo də]</span></span></span> tomates ·
+    <span class="vf">une livre de<span class="vfT"><span class="vfEn">half a kilo of / a pound of</span></span></span> farine ·
+    <span class="vf">un sac de<span class="vfT"><span class="vfEn">a bag of</span></span></span> riz ·
+    <span class="vf">deux euros le kilo<span class="vfT"><span class="vfEn">two euros per kilo</span></span></span> ·
+    <span class="vf">c'est combien ?<span class="vfT"><span class="vfEn">how much is it?</span><span style="margin-top:3px;display:block;font-style:italic;font-size:.7rem">The single most useful phrase at any market!</span></span></span>
+  </div>
+  <div class="badge bTc" style="margin-top:4px">🧩 Vocabulary Quiz</div>
+  <div id="vocabQuiz"></div>
+  <div class="audRow"><button class="bTc_" id="checkVQBtn">✅ Check</button><button class="redoB" id="resetVQBtn">🔄 Redo</button></div>
+  <div class="scoreBox" id="vqScore"><div class="scoreN" id="vqScoreN">0/6</div><p style="font-size:.77rem;color:var(--gn2);margin-top:4px;font-weight:600">Vocabulary Score</p></div>
+</div>
+<div class="navBar"><button class="bPrv" id="s2Prev">← Back</button><button class="bNxt" id="s2Next">Prepositions →</button></div>
+</div>
+
+<!-- SEC 3: PREPOSITIONS -->
+<div class="sec" id="sec3">
+<div class="card">
+  <div class="cardHdr"><div class="cardIco icoB">🔗</div><div><div class="cardTitle">Part 3 — Les Prépositions en contexte</div><div class="cardSub">à · de · avec · sans · pour · chez · dans — through market sentences</div></div></div>
+  <div class="tcfBanner">📌 <strong>TEF/TCF + Daily Life:</strong> Prepositions are tiny words with huge impact — they tell you WHERE, HOW, FOR WHOM, and WITH WHAT. Getting them right separates beginners from confident speakers. Learn them today through market language!</div>
+  <div class="prepGrid" id="prepCards"></div>
+  <div class="badge bBl" style="margin-top:4px">🎯 Preposition Drill — fill in the correct preposition</div>
+  <div id="prepDrill"></div>
+  <div class="audRow"><button class="bTc_" id="checkPrepBtn">✅ Check</button><button class="redoB" id="resetPrepBtn">🔄 Redo</button></div>
+  <div id="prepFb" style="display:none;margin-top:9px;padding:11px;border-radius:10px;font-size:.82rem;font-weight:700;line-height:1.7"></div>
+</div>
+<div class="navBar"><button class="bPrv" id="s3Prev">← Back</button><button class="bNxt" id="s3Next">Dialogues →</button></div>
+</div>
+
+<!-- SEC 4: TWO-VOICE DIALOGUES -->
+<div class="sec" id="sec4">
+<div class="card">
+  <div class="cardHdr"><div class="cardIco icoT">🎭</div><div><div class="cardTitle">Part 4 — Dialogues à deux voix</div><div class="cardSub">Two speakers · Buyer & seller · Different voices · Comprehension</div></div></div>
+  <div class="tcfBanner">📌 <strong>TEF/TCF Listening + Everyday:</strong> Short dialogues in shopping contexts appear in TEF listening. But more importantly — after today, you can actually go to a market and talk! Notice how prepositions appear naturally in these conversations.</div>
+  <div class="coach"><div class="coachAv">👩🏾‍🏫</div><div><div class="coachName">Coach Linda</div><div class="coachTxt">"Listen to the full dialogue first — 🔊 Full dialogue. Then go line by line: press 🔊 on any bubble to hear that exact line. English is hidden — reveal when ready. Notice how the buyer and seller have different speaking styles. Spot the prepositions!"</div></div></div>
+  <div id="dialogSection"></div>
+  <div class="badge bTc" style="margin-top:14px">📝 Comprehension — answer in French</div>
+  <div id="dialogQs"></div>
+  <div class="audRow"><button class="bTc_" id="checkDQBtn">✅ Check</button><button class="redoB" id="resetDQBtn">🔄 Redo</button></div>
+  <div class="scoreBox" id="dqScore"><div class="scoreN" id="dqScoreN">0/7</div><p style="font-size:.77rem;color:var(--gn2);margin-top:4px;font-weight:600">Dialogue Comprehension</p></div>
+</div>
+<div class="navBar"><button class="bPrv" id="s4Prev">← Back</button><button class="bNxt" id="s4Next">Announcements →</button></div>
+</div>
+
+<!-- SEC 5: MARKET ANNOUNCEMENTS -->
+<div class="sec" id="sec5">
+<div class="card">
+  <div class="cardHdr"><div class="cardIco icoY">📢</div><div><div class="cardTitle">Part 5 — Annonces du Marché</div><div class="cardSub">3 announcements · Keywords · Comprehension</div></div></div>
+  <div class="tcfBanner">📌 <strong>TEF/TCF Listening:</strong> Announcements are a dedicated listening question type. In markets, malls, transit — you will hear these formats. Listen first, find the keywords, then answer the questions without looking at the text!</div>
+  <div id="announceSection"></div>
+  <div class="badge bTc" style="margin-top:14px">📝 Announcement Comprehension</div>
+  <div id="announceQs"></div>
+  <div class="audRow"><button class="bTc_" id="checkAQBtn">✅ Check</button><button class="redoB" id="resetAQBtn">🔄 Redo</button></div>
+  <div class="scoreBox" id="aqScore"><div class="scoreN" id="aqScoreN">0/6</div><p style="font-size:.77rem;color:var(--gn2);margin-top:4px;font-weight:600">Announcement Score</p></div>
+</div>
+<div class="navBar"><button class="bPrv" id="s5Prev">← Back</button><button class="bNxt" id="s5Next">Writing →</button></div>
+</div>
+
+<!-- SEC 6: WRITING -->
+<div class="sec" id="sec6">
+<div class="card">
+  <div class="cardHdr"><div class="cardIco icoG">✍️</div><div><div class="cardTitle">Part 6A — Écris ton annonce</div><div class="cardSub">Write your own shop announcement · Days · Times · Open / Closed</div></div></div>
+  <div class="tcfBanner">📌 <strong>TEF/TCF Writing:</strong> Writing notices, announcements, and short informative texts is a real TEF written production task. Days, times, and prepositions (de, à, du, au) are essential here — and you just practiced all of them!</div>
+  <div class="coach"><div class="coachAv">👩🏾‍🏫</div><div><div class="coachName">Coach Linda</div><div class="coachTxt">"You are the owner of a small shop or market stall. Write your opening hours announcement — in French! Use the word bank and examples below. Include: shop name, days open, opening time, closing time, any day you are closed. Minimum 4 sentences. Use de/à/du/au for times and days!"</div></div></div>
+  <div style="background:var(--bg3);border:1.5px solid var(--bdr2);border-radius:var(--r);padding:14px;margin-bottom:13px">
+    <div class="badge bYw" style="margin-bottom:9px">📋 Word bank — use these!</div>
+    <div style="font-size:.84rem;line-height:2.2;font-family:'Spectral',serif;color:var(--txt2)">
+      <strong style="color:var(--tc2)">Days:</strong> lundi · mardi · mercredi · jeudi · vendredi · samedi · dimanche<br>
+      <strong style="color:var(--tc2)">Times:</strong> de huit heures à dix-neuf heures · de neuf heures à dix-sept heures<br>
+      <strong style="color:var(--tc2)">Open/Closed:</strong> ouvert(e) · fermé(e) · nous sommes ouverts · nous sommes fermés<br>
+      <strong style="color:var(--tc2)">Days range:</strong> du lundi au vendredi · du lundi au samedi<br>
+      <strong style="color:var(--tc2)">Model:</strong> <em>Ma boutique est ouverte du lundi au samedi, de neuf heures à dix-huit heures. Nous sommes fermés le dimanche.</em>
+    </div>
+    <button class="bTc_" id="modelSpkBtn" style="margin-top:9px;min-height:34px;font-size:.73rem">🔊 Hear model</button>
+  </div>
+  <div class="starterChips" id="shopStarters"></div>
+  <div class="accentBar" id="acBarShop"></div>
+  <textarea class="writeTA" id="shopTA" rows="5" placeholder="Écrivez votre annonce ici... (Write your announcement here — at least 4 sentences!)"></textarea>
+  <div class="wcD" id="shopWC">0 words</div>
+  <div class="audRow">
+    <button class="bTc_" id="checkShopBtn">✅ Get Feedback</button>
+    <button class="bOut" id="shopSpkBtn">🔊 Hear it</button>
+    <button class="bStt" id="shopSttBtn">🎤 Speak</button>
+  </div>
+  <div class="sttLiveBox" id="shopSttLive"></div>
+  <div class="coachFb" id="shopCoach"><div class="cfbLbl">👩🏾‍🏫 Coach Linda — Announcement Feedback</div><div class="cfbTxt" id="shopCoachTxt"></div></div>
+</div>
+
+<div class="card">
+  <div class="cardHdr"><div class="cardIco icoT">📝</div><div><div class="cardTitle">Part 6B — Je décris mon marché</div><div class="cardSub">Free writing — describe a market visit or market scene</div></div></div>
+  <div class="infoBox">Write <strong>5+ sentences</strong> describing a market — real or imagined. Use: market vocabulary, prepositions (à, de, avec, sans, pour, chez), days and times, and at least one linking word (et, mais, parce que, donc).</div>
+  <div class="starterChips" id="freeStarters"></div>
+  <div class="accentBar" id="acBarFree"></div>
+  <textarea class="writeTA" id="freeTA" rows="6" placeholder="Je vais au marché... / Au marché, il y a... / J'achète des... parce que..."></textarea>
+  <div class="wcD" id="freeWC">0 words</div>
+  <div class="audRow">
+    <button class="bTc_" id="checkFreeBtn">✅ Full Correction</button>
+    <button class="bOut" id="freeSpkBtn">🔊 Hear it</button>
+    <button class="bStt" id="freeSttBtn">🎤 Speak</button>
+    <button class="redoB" id="freeClearBtn">🔄 Clear</button>
+  </div>
+  <div class="sttLiveBox" id="freeSttLive"></div>
+  <div class="coachFb" id="freeCoach"><div class="cfbLbl">👩🏾‍🏫 Full Correction — Coach Linda</div><div class="cfbTxt" id="freeCoachTxt"></div></div>
+</div>
+<div class="navBar"><button class="bPrv" id="s6Prev">← Back</button><button class="bNxt" id="s6Next">Certificate →</button></div>
+</div>
+
+<!-- SEC 7: FINAL QUIZ + CAN DO CERTIFICATE -->
+<div class="sec" id="sec7">
+<div class="card">
+  <div class="cardHdr"><div class="cardIco icoG">🏆</div><div><div class="cardTitle">Part 7 — Quiz Final</div><div class="cardSub">10 questions · Complete your Day 15</div></div></div>
+  <div id="finalQuiz"></div>
+  <div class="scoreBox" id="quizSc"><div class="scoreN" id="quizScN">0/10</div><p style="font-size:.77rem;color:var(--gn2);margin-top:4px;font-weight:600" id="quizScLbl">Final Score</p></div>
+  <div id="reflWrap" style="margin-top:14px;display:none">
+    <div class="badge bTc">📝 Reflection (optional)</div>
+    <div id="reflQs"></div>
+    <div style="background:var(--bg3);border:1px solid var(--bdr2);border-radius:var(--r);padding:13px;margin-top:12px">
+      <div style="font-size:.59rem;font-weight:700;color:var(--tc2);text-transform:uppercase;letter-spacing:1px;margin-bottom:7px;font-family:'Syne',sans-serif">How are you feeling NOW?</div>
+      <div class="moodRow" id="mERow" style="justify-content:flex-start;gap:7px;flex-wrap:wrap">
+        <button class="moodBtn" data-emood="😩">😩</button><button class="moodBtn" data-emood="😐">😐</button>
+        <button class="moodBtn" data-emood="🙂">🙂</button><button class="moodBtn" data-emood="😄">😄</button>
+        <button class="moodBtn" data-emood="🔥">🔥</button>
+      </div>
+    </div>
+    <button class="bNxt" id="completeBtn" style="width:100%;justify-content:center;margin-top:15px;display:flex">🎉 Get My Certificate!</button>
+  </div>
+</div>
+<div class="navBar"><button class="bPrv" id="s7Prev">← Back</button></div>
+</div>
+
+<!-- COMPLETION + CERTIFICATE -->
+<div id="compSc">
+  <div style="text-align:center;margin-bottom:18px">
+    <div style="font-size:3rem;margin-bottom:8px">🎉</div>
+    <h1 style="font-family:'Syne',sans-serif;font-size:1.5rem;color:var(--tc2);margin-bottom:4px">Félicitations !</h1>
+    <p style="color:var(--mut);font-size:.84rem">Day 15 complete · Au Marché · You are ready for the real thing!</p>
+  </div>
+  <div class="certCard">
+    <div class="certTop">Fast French Lab · Jour 15</div>
+    <span class="certBadge">🛒</span>
+    <div class="certTitle">Je peux maintenant...</div>
+    <div class="certSub">Here is what you proved today. These are REAL skills:</div>
+    <div class="certItems" id="certItems"></div>
+    <div class="certFooter">Certified by Coach Linda · Fast French Lab</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:12px 0">
+    <div style="background:var(--bg2);border:1.5px solid var(--bdr2);border-radius:var(--r);padding:13px;text-align:center"><div style="font-size:1.2rem;margin-bottom:3px">✍️</div><div style="font-size:1.4rem;font-weight:900;color:var(--tc2);font-family:'Syne',sans-serif" id="stWords">0</div><div style="font-size:.69rem;color:var(--mut)">Words written</div></div>
+    <div style="background:var(--bg2);border:1.5px solid var(--bdr2);border-radius:var(--r);padding:13px;text-align:center"><div style="font-size:1.2rem;margin-bottom:3px">🏆</div><div style="font-size:1.4rem;font-weight:900;color:var(--tc2);font-family:'Syne',sans-serif" id="stQuiz">—%</div><div style="font-size:.69rem;color:var(--mut)">Quiz score</div></div>
+  </div>
+  <div id="saveCon" style="background:var(--gnb);border:1px solid var(--gn);border-radius:var(--rsm);padding:9px;font-size:.77rem;color:var(--gn2);font-weight:700;margin:9px 0;display:none">✅ Progress saved to Fast French Lab!</div>
+  <div style="background:var(--ywb2);border:1.5px solid rgba(200,137,10,.3);border-radius:var(--rsm);padding:12px;font-size:.79rem;color:var(--yw2);font-weight:600;margin:9px 0;text-align:center">📸 Screenshot your certificate and share in the WhatsApp group!</div>
+  <div style="background:var(--bg3);border:1.5px solid var(--bdr2);border-radius:var(--r);padding:14px;margin-top:13px;font-size:.82rem;color:var(--txt2);line-height:1.75">
+    <span style="color:var(--tc2);font-weight:700;font-family:'Syne',sans-serif">👩🏾‍🏫 Coach Linda:</span> "Day 15 and you just walked into a French market and came out with everything you needed! Whether you are heading to Canada, exploring France, or simply building a love for this beautiful language — today proved you can do this. Keep going. À bientôt pour le Jour 16 !"
+  </div>
+</div>
+
+</div>
+<div class="cfloat"><div class="cbubble" id="cb"><div class="cbName">Coach Linda</div><span id="cbTxt"></span></div><div class="cav" id="coachAv">👩🏾‍🏫</div></div>
+<button id="dictFab" title="Dictionary">📖</button>
+<div id="dictP">
+  <button id="dpX">×</button><div class="dpH"></div>
+  <h3 style="font-size:.88rem;font-weight:700;margin-bottom:3px;color:var(--txt)">📖 French Dictionary</h3>
+  <p style="font-size:.69rem;color:var(--mut);margin-bottom:9px">Look up any word you hear or see today.</p>
+  <div class="dpRow"><input type="text" id="dpW" placeholder="Type a French word..." autocomplete="off"><button id="dpGo">Look up →</button></div>
+  <div id="dpLks"></div>
+</div>
+<script>
+var AT_TOKEN='patUosqmnatcmyQ9b.122d09bdf7cce0da1444baf44f88eb6ddb41aa27312a1ec65ca5cd700c51a2e9';
+var AT_BASE='appYOYauNLO2qcSaT';var AM='claude-sonnet-4-6';
+var AT_L='Lesson Submissions';var AT_S='Speaking Progress';var AT_R='Reflection Journal';
+var sN='',sE='',mS='',mE='';
+var curSec=1,cTmr=null,spkN=0,blobs={},sttRecog=null,sttActive=false;
+var frVoice=null,frVoice2=null;
+var cqDone={},vqDone={},dqDone={},aqDone={},quizDone={};
+var consecutiveCorrect=0,totalCorrect=0;
+var musicCtx=null,musicPlaying=false,musicNodes=[];
+var ACCENTS=['é','è','ê','ë','à','â','ù','û','ô','î','ï','ç','œ'];
+
+// ─── SOUND ENGINE (Web Audio API — positive sounds only) ───
+function getAudioCtx(){
+  if(!window._ac)window._ac=new(window.AudioContext||window.webkitAudioContext)();
+  return window._ac;
+}
+function playChime(){
+  try{
+    var ctx=getAudioCtx();
+    [[523.25,0],[659.25,.16],[783.99,.3]].forEach(function(pair){
+      var osc=ctx.createOscillator(),gain=ctx.createGain();
+      osc.connect(gain);gain.connect(ctx.destination);
+      osc.frequency.value=pair[0];osc.type='sine';
+      gain.gain.setValueAtTime(0,ctx.currentTime+pair[1]);
+      gain.gain.linearRampToValueAtTime(0.22,ctx.currentTime+pair[1]+0.015);
+      gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+pair[1]+0.55);
+      osc.start(ctx.currentTime+pair[1]);osc.stop(ctx.currentTime+pair[1]+0.56);
+    });
+  }catch(e){}
+}
+function playSectionDing(){
+  try{
+    var ctx=getAudioCtx();
+    [[523.25,0],[659.25,.18],[783.99,.34],[1046.5,.5]].forEach(function(pair){
+      var osc=ctx.createOscillator(),gain=ctx.createGain();
+      osc.connect(gain);gain.connect(ctx.destination);
+      osc.frequency.value=pair[0];osc.type='triangle';
+      gain.gain.setValueAtTime(0,ctx.currentTime+pair[1]);
+      gain.gain.linearRampToValueAtTime(0.2,ctx.currentTime+pair[1]+0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+pair[1]+0.5);
+      osc.start(ctx.currentTime+pair[1]);osc.stop(ctx.currentTime+pair[1]+0.52);
+    });
+  }catch(e){}
+}
+function playFanfare(){
+  try{
+    var ctx=getAudioCtx();
+    var notes=[523.25,659.25,783.99,659.25,783.99,1046.5,880,1046.5];
+    notes.forEach(function(freq,i){
+      var osc=ctx.createOscillator(),gain=ctx.createGain();
+      osc.connect(gain);gain.connect(ctx.destination);
+      osc.frequency.value=freq;osc.type='triangle';
+      gain.gain.setValueAtTime(0,ctx.currentTime+i*0.14);
+      gain.gain.linearRampToValueAtTime(0.18,ctx.currentTime+i*0.14+0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+i*0.14+0.38);
+      osc.start(ctx.currentTime+i*0.14);osc.stop(ctx.currentTime+i*0.14+0.4);
+    });
+  }catch(e){}
+}
+function playStreakSound(){
+  try{
+    var ctx=getAudioCtx();
+    [[880,0],[1046.5,.12],[1318.5,.22]].forEach(function(pair){
+      var osc=ctx.createOscillator(),gain=ctx.createGain();
+      osc.connect(gain);gain.connect(ctx.destination);
+      osc.frequency.value=pair[0];osc.type='sine';
+      gain.gain.setValueAtTime(0,ctx.currentTime+pair[1]);
+      gain.gain.linearRampToValueAtTime(0.15,ctx.currentTime+pair[1]+0.01);
+      gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+pair[1]+0.35);
+      osc.start(ctx.currentTime+pair[1]);osc.stop(ctx.currentTime+pair[1]+0.36);
+    });
+  }catch(e){}
+}
+function startCafeMusic(){
+  try{
+    if(musicPlaying)return;
+    var ctx=getAudioCtx();musicPlaying=true;
+    var chords=[[261.63,329.63,392],[293.66,369.99,440],[246.94,311.13,392],[261.63,329.63,392]];
+    var step=0;
+    function playChord(){
+      if(!musicPlaying)return;
+      var chord=chords[step%chords.length];step++;
+      chord.forEach(function(freq){
+        var osc=ctx.createOscillator(),gain=ctx.createGain();
+        osc.connect(gain);gain.connect(ctx.destination);
+        osc.frequency.value=freq;osc.type='sine';
+        gain.gain.setValueAtTime(0,ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.03,ctx.currentTime+0.05);
+        gain.gain.setValueAtTime(0.03,ctx.currentTime+1.2);
+        gain.gain.linearRampToValueAtTime(0,ctx.currentTime+1.6);
+        osc.start(ctx.currentTime);osc.stop(ctx.currentTime+1.65);
+        musicNodes.push(osc);
+      });
+      window._musicTimer=setTimeout(playChord,1800);
+    }
+    playChord();
+  }catch(e){musicPlaying=false;}
+}
+function stopCafeMusic(){
+  musicPlaying=false;clearTimeout(window._musicTimer);
+  musicNodes.forEach(function(n){try{n.stop();}catch(e){}});
+  musicNodes=[];
+}
+function onCorrect(sectionDone){
+  consecutiveCorrect++;totalCorrect++;
+  playChime();
+  if(consecutiveCorrect===3){showStreakToast('🔥 On fire! 3 in a row!');playStreakSound();consecutiveCorrect=0;}
+  if(sectionDone)playSectionDing();
+}
+
+// ─── VOICE ───
+function loadFrVoice(){return new Promise(function(res){
+  var t=function(n){
+    var vs=speechSynthesis.getVoices();
+    var v=vs.find(function(v){return v.lang==='fr-FR'&&/thomas|nicolas/i.test(v.name);})||
+           vs.find(function(v){return v.lang==='fr-FR'&&/google/i.test(v.name);})||
+           vs.find(function(v){return v.lang==='fr-FR';})||
+           vs.find(function(v){return v.lang.startsWith('fr');});
+    // Second voice: same list, different index for variety
+    var vs2=vs.filter(function(v){return v.lang.startsWith('fr');});
+    frVoice2=vs2.length>1?vs2[1]:vs2[0];
+    if(v||n<=0)res(v||null);else setTimeout(function(){t(n-1);},300);
+  };
+  speechSynthesis.onvoiceschanged=function(){t(0);};t(10);
+});}
+window.addEventListener('load',function(){loadFrVoice().then(function(v){frVoice=v;});});
+
+function spk(t,btn,rate,pitch,usev2){
+  if(!t||!t.trim())return;
+  var wasPlaying=musicPlaying;
+  if(wasPlaying){stopCafeMusic();}
+  speechSynthesis.cancel();
+  var u=new SpeechSynthesisUtterance(t);
+  var v=usev2&&frVoice2?frVoice2:frVoice;
+  if(v)u.voice=v;u.lang='fr-FR';u.rate=rate||0.82;u.pitch=pitch||0.95;
+  if(btn&&btn.textContent){var o=btn.textContent;btn.textContent='⏸...';u.onend=function(){btn.textContent=o;if(wasPlaying&&musicPlaying)startCafeMusic();};}
+  speechSynthesis.speak(u);
+}
+
+// ─── STT ───
+function startSTT(targetId,liveId,btnEl){
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){showCoach('Speech recognition needs Chrome — try typing instead!',4000);return;}
+  if(sttActive){sttRecog&&sttRecog.stop();return;}
+  sttRecog=new SR();sttRecog.lang='fr-FR';sttRecog.continuous=false;sttRecog.interimResults=true;sttActive=true;
+  if(btnEl){btnEl.textContent='⏹ Stop';btnEl.classList.add('on');}
+  var live=document.getElementById(liveId);if(live){live.classList.add('show');live.textContent='Listening...';}
+  sttRecog.onresult=function(e){var t2=Array.from(e.results).map(function(r){return r[0].transcript;}).join('');if(live)live.textContent='🗣️ '+t2;var tgt=document.getElementById(targetId);if(tgt)tgt.value=t2;};
+  sttRecog.onend=function(){sttActive=false;if(btnEl){btnEl.textContent='🎤 Speak';btnEl.classList.remove('on');}spkN++;};
+  sttRecog.onerror=function(){sttActive=false;if(btnEl){btnEl.textContent='🎤 Speak';btnEl.classList.remove('on');}};
+  sttRecog.start();
+}
+
+// ─── ACCENT BAR ───
+function buildAccentBar(containerId,targetId){
+  var c=document.getElementById(containerId);if(!c)return;
+  c.innerHTML=ACCENTS.map(function(a){return '<button class="acBtn acInsert" data-char="'+a+'" data-target="'+targetId+'">'+a+'</button>';}).join('');
+}
+document.addEventListener('click',function(ev){
+  var b=ev.target.closest('.acInsert');if(!b)return;
+  var t=document.getElementById(b.dataset.target);if(!t)return;
+  var s=t.selectionStart||t.value.length,e=t.selectionEnd||t.value.length;
+  t.value=t.value.slice(0,s)+b.dataset.char+t.value.slice(e);
+  t.focus();t.selectionStart=t.selectionEnd=s+1;
+});
+
+// ─── MOOD ───
+function selMood(el,isEnd){
+  var row=isEnd?'mERow':'mSRow';
+  document.getElementById(row).querySelectorAll('.moodBtn').forEach(function(b){b.classList.remove('sel');});
+  el.classList.add('sel');if(isEnd)mE=el.dataset.emood;else mS=el.dataset.mood;
+}
+
+// ─── NAV ───
+function goSec(n){
+  document.getElementById('sec'+curSec).classList.remove('show');curSec=n;
+  var s=document.getElementById('sec'+n);if(s)s.classList.add('show');
+  window.scrollTo({top:0,behavior:'smooth'});updDots();updProg();
+  consecutiveCorrect=0;
+}
+function buildDots(){document.getElementById('dotsW').innerHTML=[1,2,3,4,5,6,7].map(function(i){return '<div class="dot'+(i===1?' active':'')+'" id="dot'+i+'">'+i+'</div>';}).join('');}
+function updDots(){for(var i=1;i<=7;i++){var d=document.getElementById('dot'+i);if(d)d.className='dot'+(i<curSec?' done':i===curSec?' active':'');}}
+function buildPS(){document.getElementById('pSegs').innerHTML=[1,2,3,4,5,6,7].map(function(i){return '<div class="pSeg" id="ps'+i+'"></div>';}).join('');}
+function updProg(){for(var i=1;i<=7;i++){var s=document.getElementById('ps'+i);if(s)s.className='pSeg'+(i<curSec?' done':i===curSec?' active':'');}}
+
+// ─── DATA ───
+var BUYER_CHUNKS=[
+  {fr:"C'est combien ?",en:"How much is it?",note:"THE most useful market phrase — use it everywhere!"},
+  {fr:"Je voudrais un kilo de tomates, s'il vous plaît.",en:"I would like a kilo of tomatoes, please.",note:"Replace 'tomates' with any vegetable or fruit!"},
+  {fr:"Avez-vous des mangues ?",en:"Do you have mangoes?",note:"'Avez-vous des...' asks if they have something."},
+  {fr:"C'est frais ?",en:"Is it fresh?",note:"Always good to ask — especially at open-air markets!"},
+  {fr:"Je cherche des oignons.",en:"I am looking for onions.",note:"'Je cherche' = I am looking for. Very useful!"},
+  {fr:"Vous avez de la monnaie ?",en:"Do you have change?",note:"Monnaie = change / small money. Important!"}
+];
+var SELLER_CHUNKS=[
+  {fr:"Bonjour, qu'est-ce qu'il vous faut ?",en:"Hello, what do you need?",note:"Common opening from a vendor — be ready for it!"},
+  {fr:"C'est deux euros le kilo.",en:"It's two euros per kilo.",note:"Le kilo = per kilo. You will hear this constantly."},
+  {fr:"Ils arrivent ce matin — très frais !",en:"They arrived this morning — very fresh!",note:"Sellers love to reassure you about freshness."},
+  {fr:"Je vous fais un prix.",en:"I'll give you a good price.",note:"This means they will offer you a discount!"},
+  {fr:"Et avec ça ?",en:"And with that? / Anything else?",note:"Standard follow-up question from any vendor."},
+  {fr:"Voilà votre monnaie.",en:"Here is your change.",note:"Monnaie = change. End of transaction."}
+];
+var NEG_CHUNKS=[
+  {fr:"C'est trop cher.",en:"It's too expensive.",note:"Polite but direct — appropriate in markets!"},
+  {fr:"Vous pouvez faire un effort ?",en:"Can you make an effort on the price?",note:"Very polite way to ask for a discount."},
+  {fr:"Je prends tout ça — vous faites un prix ?",en:"I'll take all of this — can you give me a better price?",note:"Buying more = better negotiating position!"},
+  {fr:"Alors, d'accord — je prends ça.",en:"OK then — I'll take this.",note:"Accepting the price and making the purchase."}
+];
+var CHUNK_SPK=BUYER_CHUNKS.concat(SELLER_CHUNKS).concat(NEG_CHUNKS).map(function(c){return c.fr;});
+
+var FOOD_VOCAB=[
+  {fr:"la tomate",en:"tomato",emo:"🍅",spk:"la tomate"},
+  {fr:"l'oignon",en:"onion",emo:"🧅",spk:"l'oignon"},
+  {fr:"la carotte",en:"carrot",emo:"🥕",spk:"la carotte"},
+  {fr:"l'aubergine",en:"eggplant / aubergine",emo:"🍆",spk:"l'aubergine"},
+  {fr:"le piment",en:"chili pepper",emo:"🌶️",spk:"le piment"},
+  {fr:"le poivron",en:"bell pepper",emo:"🫑",spk:"le poivron"},
+  {fr:"la mangue",en:"mango",emo:"🥭",spk:"la mangue"},
+  {fr:"l'ananas",en:"pineapple",emo:"🍍",spk:"l'ananas"},
+  {fr:"la banane",en:"banana",emo:"🍌",spk:"la banane"},
+  {fr:"le gombo",en:"okra",emo:"🌿",spk:"le gombo"},
+  {fr:"la patate douce",en:"sweet potato",emo:"🍠",spk:"la patate douce"},
+  {fr:"le gingembre",en:"ginger",emo:"🫚",spk:"le gingembre"}
+];
+var MKT_VOCAB=[
+  {fr:"le marché",en:"the market",emo:"🏪",spk:"le marché"},
+  {fr:"l'étal",en:"the market stall",emo:"🛍️",spk:"l'étal"},
+  {fr:"le vendeur",en:"the seller (male)",emo:"👨‍🦳",spk:"le vendeur"},
+  {fr:"la vendeuse",en:"the seller (female)",emo:"👩",spk:"la vendeuse"},
+  {fr:"le client",en:"the customer (male)",emo:"🙋",spk:"le client"},
+  {fr:"le prix",en:"the price",emo:"💰",spk:"le prix"},
+  {fr:"la balance",en:"the scale",emo:"⚖️",spk:"la balance"},
+  {fr:"le sac",en:"the bag",emo:"🛍️",spk:"le sac"},
+  {fr:"la monnaie",en:"the change",emo:"🪙",spk:"la monnaie"},
+  {fr:"frais / fraîche",en:"fresh (m/f)",emo:"✨",spk:"frais — fraîche"},
+  {fr:"ouvert / fermé",en:"open / closed",emo:"🔓🔒",spk:"ouvert — fermé"},
+  {fr:"le marché ouvert",en:"open-air market",emo:"☀️",spk:"le marché ouvert"}
+];
+var FOOD_SPK=FOOD_VOCAB.map(function(v){return v.spk+'. '+v.en;});
+var MKT_SPK=MKT_VOCAB.map(function(v){return v.spk+'. '+v.en;});
+
+var PREPS=[
+  {prep:"à",en:"at / to / in",ex:"Je suis au marché.",exEn:"I am at the market.",ex2:"Le marché ferme à dix-neuf heures.",ex2En:"The market closes at 7pm."},
+  {prep:"de",en:"of / from",ex:"Un kilo de tomates.",exEn:"A kilo of tomatoes.",ex2:"La vendeuse de fruits.",ex2En:"The fruit seller."},
+  {prep:"avec",en:"with",ex:"Une salade avec des tomates.",exEn:"A salad with tomatoes.",ex2:"Je paye avec ma carte.",ex2En:"I pay with my card."},
+  {prep:"sans",en:"without",ex:"Un café sans sucre.",exEn:"A coffee without sugar.",ex2:"Des légumes sans pesticides.",ex2En:"Vegetables without pesticides."},
+  {prep:"pour",en:"for",ex:"C'est pour combien ?",exEn:"How much is it for?",ex2:"Je prépare ce repas pour ma famille.",ex2En:"I'm preparing this meal for my family."},
+  {prep:"chez",en:"at (someone's place) / at a shop",ex:"Je vais chez le boucher.",exEn:"I'm going to the butcher's.",ex2:"Chez moi, on mange beaucoup de légumes.",ex2En:"At my home, we eat a lot of vegetables."},
+  {prep:"dans",en:"in / inside",ex:"Il y a des tomates dans mon sac.",exEn:"There are tomatoes in my bag.",ex2:"Dans ce marché, il y a tout !",ex2En:"In this market, there's everything!"}
+];
+var PREP_SPK=PREPS.map(function(p){return p.prep+'. '+p.ex+' '+p.ex2;});
+
+var PREP_DRILL=[
+  {s:"Je vais ___ marché ce matin.",ans:"au",hint:"à + le = au (contraction)"},
+  {s:"Un kilo ___ mangues, s'il vous plaît.",ans:"de",hint:"'of' in French before a noun"},
+  {s:"Un café ___ sucre, s'il vous plaît.",ans:"sans",hint:"without"},
+  {s:"C'est ___ ma famille.",ans:"pour",hint:"for (purpose or recipient)"},
+  {s:"Je vais ___ la boulangère chaque matin.",ans:"chez",hint:"at someone's shop or place"},
+  {s:"Les tomates sont ___ le sac.",ans:"dans",hint:"inside / in"},
+  {s:"Je paie ___ ma carte bancaire.",ans:"avec",hint:"with (instrument or means)"}
+];
+
+var DIALOGUES=[
+  {
+    title:"Dialogue 1 — À l'étal de légumes",
+    lines:[
+      {spk:"Vendeuse",role:"seller",fr:"Bonjour ! Qu'est-ce qu'il vous faut aujourd'hui ?",en:"Good morning! What do you need today?"},
+      {spk:"Cliente",role:"buyer",fr:"Bonjour madame. Je voudrais un kilo de tomates et des oignons.",en:"Good morning madam. I'd like a kilo of tomatoes and some onions."},
+      {spk:"Vendeuse",role:"seller",fr:"Bien sûr. Les tomates arrivent du village ce matin — très fraîches ! Et pour les oignons, c'est deux euros le kilo.",en:"Of course. The tomatoes arrived from the village this morning — very fresh! And for the onions, it's two euros per kilo."},
+      {spk:"Cliente",role:"buyer",fr:"C'est bien. Et les tomates, c'est combien ?",en:"That's fine. And the tomatoes, how much are they?"},
+      {spk:"Vendeuse",role:"seller",fr:"Les tomates, c'est un euro cinquante le kilo. Je vous en mets combien ?",en:"The tomatoes are one euro fifty per kilo. How many kilos would you like?"},
+      {spk:"Cliente",role:"buyer",fr:"Un kilo et demi de tomates, et un kilo d'oignons. C'est tout.",en:"A kilo and a half of tomatoes, and a kilo of onions. That's all."},
+      {spk:"Vendeuse",role:"seller",fr:"Très bien. Ça fait cinq euros vingt-cinq en tout. Et avec ça ?",en:"Very good. That's five euros twenty-five altogether. And with that?"},
+      {spk:"Cliente",role:"buyer",fr:"C'est tout, merci. Voilà un billet de dix euros.",en:"That's all, thank you. Here's a ten-euro note."},
+      {spk:"Vendeuse",role:"seller",fr:"Merci bien ! Voilà votre monnaie — quatre euros soixante-quinze. Bonne journée !",en:"Thank you! Here's your change — four euros seventy-five. Have a nice day!"}
+    ]
+  },
+  {
+    title:"Dialogue 2 — Négociation au marché",
+    lines:[
+      {spk:"Vendeur",role:"seller",fr:"Bonjour, regardez — les mangues du jour, fraîches et sucrées !",en:"Good morning, look — today's mangoes, fresh and sweet!"},
+      {spk:"Client",role:"buyer",fr:"Bonjour. C'est combien les mangues ?",en:"Good morning. How much are the mangoes?"},
+      {spk:"Vendeur",role:"seller",fr:"Trois euros le kilo, monsieur.",en:"Three euros per kilo, sir."},
+      {spk:"Client",role:"buyer",fr:"C'est un peu cher. Vous pouvez faire un effort ?",en:"That's a bit expensive. Can you make an effort on the price?"},
+      {spk:"Vendeur",role:"seller",fr:"Pour vous, je fais deux euros cinquante. Mais c'est mon dernier prix !",en:"For you, I'll do two euros fifty. But that's my final price!"},
+      {spk:"Client",role:"buyer",fr:"D'accord ! Je prends deux kilos de mangues alors.",en:"OK! I'll take two kilos of mangoes then."},
+      {spk:"Vendeur",role:"seller",fr:"Voilà ! Cinq euros s'il vous plaît. Ils vont vous régaler !",en:"There you go! Five euros please. You'll enjoy them!"}
+    ]
+  }
+];
+
+var ALL_DLG_LINES=[];
+DIALOGUES.forEach(function(d){ALL_DLG_LINES=ALL_DLG_LINES.concat(d.lines.map(function(l){return l.fr;}));});
+
+var DIALOG_QS=[
+  {fr:"Dans le dialogue 1 — que veut acheter la cliente ?",en:"In dialogue 1 — what does the customer want to buy?",type:'mcq',opts:["Des mangues et des carottes","Des tomates et des oignons","Des patates douces et des piments","Des bananes et des oignons"],ans:1,fb:"✅ Des tomates et des oignons — she asks for both from the start."},
+  {fr:"Dans le dialogue 1 — comment sont les tomates ?",en:"In dialogue 1 — how are the tomatoes described?",type:'mcq',opts:["Très sucrées","Un peu vieilles","Très fraîches","Trop chères"],ans:2,fb:"✅ Très fraîches — elles arrivent du village ce matin !"},
+  {fr:"Combien coûtent les oignons dans le dialogue 1 ?",en:"How much do the onions cost in dialogue 1?",type:'mcq',opts:["Un euro le kilo","Deux euros le kilo","Trois euros le kilo","Cinq euros le kilo"],ans:1,fb:"✅ Deux euros le kilo."},
+  {fr:"Dans le dialogue 2 — quel est le premier prix des mangues ?",en:"In dialogue 2 — what is the initial price of the mangoes?",type:'mcq',opts:["Deux euros le kilo","Deux euros cinquante","Trois euros le kilo","Cinq euros le kilo"],ans:2,fb:"✅ Trois euros le kilo — but the customer negotiates it down!"},
+  {fr:"Dans le dialogue 2 — comment le client demande-t-il une réduction ?",en:"In dialogue 2 — how does the customer ask for a discount?",type:'mcq',opts:["Il dit que les mangues ne sont pas fraîches","Il dit qu'il n'a pas de monnaie","Il dit que c'est trop cher et demande un effort","Il refuse d'acheter"],ans:2,fb:"✅ Il dit 'C'est un peu cher, vous pouvez faire un effort ?' — perfectly polite negotiation!"},
+  {fr:"Quel prix le vendeur accepte-t-il finalement dans le dialogue 2 ?",en:"What price does the seller finally accept in dialogue 2?",type:'mcq',opts:["Trois euros le kilo","Deux euros le kilo","Deux euros cinquante le kilo","Cinq euros pour deux kilos"],ans:2,fb:"✅ Deux euros cinquante le kilo — a discount of 50 cents per kilo!"},
+  {fr:"Vrai ou faux ? Dans le dialogue 1, la vendeuse dit que les tomates viennent de Paris.",en:"True or false? In dialogue 1, the seller says the tomatoes come from Paris.",type:'tf',cor:false,fb:"❌ Faux ! Elle dit qu'elles arrivent du village — pas de Paris."}
+];
+
+var ANNOUNCEMENTS=[
+  {
+    title:"Annonce 1 — Ouverture du marché",
+    text:"Mesdames et messieurs, bienvenue au Grand Marché de la Victoire. Notre marché est ouvert du lundi au samedi, de sept heures à dix-neuf heures. Le dimanche, nous sommes fermés. Aujourd'hui, nous avons des légumes frais du village, des fruits de saison et du poisson frais. Bienvenue à tous !",
+    en:"Ladies and gentlemen, welcome to the Grand Victory Market. Our market is open Monday to Saturday, from 7am to 7pm. On Sundays, we are closed. Today we have fresh vegetables from the village, seasonal fruit and fresh fish. Welcome everyone!",
+    keywords:["ouvert","fermé","du lundi au samedi","sept heures","dix-neuf heures","frais","bienvenue"]
+  },
+  {
+    title:"Annonce 2 — Promotion spéciale",
+    text:"Attention mesdames et messieurs, promotion spéciale aujourd'hui à l'étal numéro douze ! Les tomates fraîches sont à deux euros le kilo — au lieu de trois euros. Les mangues du Ghana sont à quatre euros le kilo. Cette promotion est valable jusqu'à dix-huit heures seulement. Dépêchez-vous !",
+    en:"Attention ladies and gentlemen, special promotion today at stall number twelve! Fresh tomatoes are two euros per kilo — instead of three euros. Ghanaian mangoes are four euros per kilo. This promotion is valid until 6pm only. Hurry!",
+    keywords:["promotion","deux euros le kilo","au lieu de","valable","jusqu'à","dépêchez-vous","étal numéro douze"]
+  },
+  {
+    title:"Annonce 3 — Fermeture du marché",
+    text:"Mesdames et messieurs, il est dix-huit heures quarante-cinq. Le marché ferme dans quinze minutes. Nous vous remercions de votre visite. Pensez à compléter vos achats avant dix-neuf heures. Le marché sera ouvert demain matin dès sept heures. Bonne soirée à tous !",
+    en:"Ladies and gentlemen, it is 6:45pm. The market closes in fifteen minutes. We thank you for your visit. Please complete your purchases before 7pm. The market will be open tomorrow morning from 7am. Good evening everyone!",
+    keywords:["dix-huit heures quarante-cinq","quinze minutes","compléter vos achats","demain matin","dès sept heures","bonne soirée"]
+  }
+];
+var ANN_SPK=ANNOUNCEMENTS.map(function(a){return a.text;});
+
+var ANNOUNCE_QS=[
+  {q:"Dans l'annonce 1 — quels jours le marché est-il ouvert ?",en:"In announcement 1 — which days is the market open?",opts:["Du lundi au dimanche","Du mardi au samedi","Du lundi au samedi","Du mercredi au dimanche"],ans:2,fb:"✅ Du lundi au samedi — le dimanche, le marché est fermé."},
+  {q:"Dans l'annonce 1 — à quelle heure le marché ferme-t-il ?",en:"In announcement 1 — at what time does the market close?",opts:["À dix-sept heures","À dix-huit heures","À vingt heures","À dix-neuf heures"],ans:3,fb:"✅ À dix-neuf heures — 7pm."},
+  {q:"Dans l'annonce 2 — à quel prix sont les tomates aujourd'hui ?",en:"In announcement 2 — what is the price of tomatoes today?",opts:["Trois euros le kilo","Deux euros le kilo","Quatre euros le kilo","Un euro le kilo"],ans:1,fb:"✅ Deux euros le kilo — c'est une promotion, au lieu de trois euros !"},
+  {q:"Jusqu'à quelle heure est valable la promotion dans l'annonce 2 ?",en:"Until what time is the promotion valid in announcement 2?",opts:["Jusqu'à dix-sept heures","Jusqu'à dix-neuf heures","Jusqu'à dix-huit heures","Jusqu'à seize heures"],ans:2,fb:"✅ Jusqu'à dix-huit heures — 6pm."},
+  {q:"Dans l'annonce 3 — dans combien de temps le marché ferme-t-il ?",en:"In announcement 3 — how soon does the market close?",opts:["Dans cinq minutes","Dans trente minutes","Dans quinze minutes","Dans une heure"],ans:2,fb:"✅ Dans quinze minutes — il est 18h45, fermeture à 19h."},
+  {q:"Dans l'annonce 3 — à quelle heure le marché ouvre-t-il demain ?",en:"In announcement 3 — what time does the market open tomorrow?",opts:["À huit heures","À sept heures","À neuf heures","À six heures"],ans:1,fb:"✅ Dès sept heures — dès = from / starting from."}
+];
+
+var VOCAB_QUIZ=[
+  {q:"What is 'le prix'?",opts:["the bag","the scale","the price","the change"],ans:2},
+  {q:"'Avez-vous des mangues ?' means:",opts:["Do you sell mangoes?","Do you have mangoes?","Are the mangoes fresh?","How much are the mangoes?"],ans:1},
+  {q:"'La vendeuse' is:",opts:["the male seller","the customer","the female seller","the market"],ans:2},
+  {q:"'Ouvert' means:",opts:["closed","expensive","open","fresh"],ans:2},
+  {q:"What is 'la monnaie'?",opts:["the price","the bill","the change","the balance"],ans:2},
+  {q:"'Et avec ça ?' is what a seller says meaning:",opts:["And how are you?","And with that — anything else?","And is that fresh?","And what is the price?"],ans:1}
+];
+
+var CHUNK_QUIZ=[
+  {q:"Someone says: 'Bonjour, qu'est-ce qu'il vous faut ?'",en:"A seller greeting you.",opts:["C'est trop cher !","Je voudrais des tomates, s'il vous plaît.","Voilà votre monnaie.","Le marché ferme à dix-neuf heures."],ans:1,fb:"✅ Je voudrais des tomates — you tell them what you need!"},
+  {q:"The price seems high. What do you say?",en:"You want to negotiate politely.",opts:["Voilà votre monnaie.","Bonne journée !","C'est trop cher — vous pouvez faire un effort ?","Je prends deux kilos."],ans:2,fb:"✅ C'est trop cher — vous pouvez faire un effort ? Classic polite negotiation!"},
+  {q:"You want to know if the fruit is fresh. You ask:",opts:["C'est combien ?","C'est frais ?","Et avec ça ?","Je cherche de la monnaie."],ans:1,fb:"✅ C'est frais ? — the essential freshness check!"},
+  {q:"The seller says 'Et avec ça ?' — they want to know:",opts:["If you have change","Where you are from","If you need anything else","The price"],ans:2,fb:"✅ Et avec ça ? = and with that? / anything else? — standard market follow-up."},
+  {q:"You've agreed on a price. You say:",opts:["C'est trop cher.","C'est frais ?","D'accord, je prends ça.","Vous avez de la monnaie ?"],ans:2,fb:"✅ D'accord, je prends ça — I'll take it!"}
+];
+var CQ_ANSWERS=[1,2,1,2,2];
+
+var FINAL_QS=[
+  {q:"How do you ask 'How much is it?' at a market?",opts:["Vous avez des tomates ?","C'est combien ?","C'est frais ?","Je cherche le marché."],ans:1},
+  {q:"What does 'Et avec ça ?' mean?",opts:["How much is that?","And is it fresh?","And with that / anything else?","And where is that?"],ans:2},
+  {q:"Fill in: 'Un kilo ___ tomates.'",opts:["du","au","de","avec"],ans:2},
+  {q:"Fill in: 'Je vais ___ marché.' (au = à + le)",opts:["de","pour","au","dans"],ans:2},
+  {q:"'Ouvert du lundi au samedi' — the market is closed on:",opts:["Lundi","Samedi","Dimanche","Vendredi"],ans:2},
+  {q:"Which is the correct preposition? 'Je paye ___ ma carte.'",opts:["pour","avec","sans","chez"],ans:1},
+  {q:"'La vendeuse' and 'le vendeur' both mean:",opts:["the customer","the seller","the market","the stall"],ans:1},
+  {q:"What does 'frais / fraîche' mean?",opts:["expensive","fresh","open","cheap"],ans:1},
+  {q:"Polite way to ask for a discount:",opts:["C'est gratuit ?","Vous pouvez faire un effort ?","Je n'ai pas de monnaie.","Et avec ça ?"],ans:1},
+  {q:"Chez means:",opts:["in a bag","without something","at someone's place / shop","inside the market"],ans:2}
+];
+
+var SHOP_STARTERS=["Ma boutique s'appelle...","Nous sommes ouverts du...","De... heures à... heures.","Nous sommes fermés le...","Venez nous rendre visite !","Bienvenue chez..."];
+var FREE_STARTERS=["Je vais au marché le...","Au marché, j'achète...","La vendeuse me dit...","Je cherche...","Je paie avec...","Les tomates coûtent...","Après le marché, je..."];
+
+var CAN_DO_ITEMS=[
+  "Demander un prix au marché : \"C'est combien ?\"",
+  "Acheter des fruits et légumes en français",
+  "Négocier poliment : \"C'est trop cher — vous pouvez faire un effort ?\"",
+  "Utiliser les prépositions : à, de, avec, sans, pour, chez, dans",
+  "Comprendre et décrire des horaires d'ouverture",
+  "Écrire une annonce de boutique : jours, heures, ouvert/fermé",
+  "Comprendre des annonces de marché en français",
+  "Avoir une vraie conversation chez un vendeur francophone"
+];
+
+// ─── RENDER FUNCTIONS ───
+function renderChunks(){
+  function makeGrid(arr,containerId,startIdx){
+    var html='';
+    arr.forEach(function(c,i){
+      var gi=startIdx+i;
+      html+='<div class="chunkCard">'
+        +'<div class="chunkFr fr">'+c.fr+'</div>'
+        +'<button class="revBtn ckRevBtn" data-gi="'+gi+'" data-enid="cken'+gi+'">🇬🇧 Show English</button>'
+        +'<div class="chunkEn" id="cken'+gi+'">'+c.en+'</div>'
+        +'<div class="chunkNote" id="cknote'+gi+'">💡 '+c.note+'</div>'
+        +'<div class="audRow" style="gap:4px;margin-top:7px">'
+        +'<button class="bTc_ ckSpk" data-gi="'+gi+'" style="min-height:30px;font-size:.68rem;padding:0 10px">🔊</button>'
+        +'<button class="bOut ckSlow" data-gi="'+gi+'" style="min-height:30px;font-size:.68rem;padding:0 9px">🐢</button>'
+        +'</div></div>';
+    });
+    document.getElementById(containerId).innerHTML=html;
+  }
+  makeGrid(BUYER_CHUNKS,'buyerChunks',0);
+  makeGrid(SELLER_CHUNKS,'sellerChunks',BUYER_CHUNKS.length);
+  makeGrid(NEG_CHUNKS,'negotiateChunks',BUYER_CHUNKS.length+SELLER_CHUNKS.length);
+
+  var ALL_CHUNKS=BUYER_CHUNKS.concat(SELLER_CHUNKS).concat(NEG_CHUNKS);
+  document.getElementById('sec1').addEventListener('click',function(ev){
+    var btn=ev.target.closest('.ckSpk,.ckSlow,.ckRevBtn');if(!btn)return;
+    var gi=btn.dataset.gi;
+    if(btn.classList.contains('ckSpk'))spk(CHUNK_SPK[gi],btn);
+    if(btn.classList.contains('ckSlow'))spk(CHUNK_SPK[gi],btn,.6);
+    if(btn.classList.contains('ckRevBtn')){
+      var en=document.getElementById(btn.dataset.enid);
+      var note=document.getElementById('cknote'+gi);
+      if(en){en.classList.toggle('rev');btn.textContent=en.classList.contains('rev')?'🇫🇷 Hide':'🇬🇧 Show English';}
+      if(note)note.style.display=note.style.display==='block'?'none':'block';
+    }
+  });
+}
+
+function renderChunkQuiz(){
+  var html='';
+  CHUNK_QUIZ.forEach(function(q,i){
+    html+='<div class="mcqW"><div class="mcqQ">'+q.q+'</div>'
+      +'<div class="mcqEnQ">'+q.en+'</div>'
+      +q.opts.map(function(o,j){return '<div class="mcqO cqOpt fr" data-qi="'+i+'" data-oi="'+j+'" data-ans="'+q.ans+'">'+o+'</div>';}).join('')
+      +'<div class="mcqFb" id="cqfb'+i+'"></div></div>';
+  });
+  document.getElementById('chunkQuiz').innerHTML=html;
+  document.getElementById('chunkQuiz').addEventListener('click',function(ev){
+    var el=ev.target.closest('.cqOpt');if(!el)return;
+    var qi=el.dataset.qi,oi=parseInt(el.dataset.oi),ans=parseInt(el.dataset.ans);
+    if(cqDone[qi]!==undefined)return;cqDone[qi]=oi;var ok=oi===ans;
+    document.querySelectorAll('.cqOpt[data-qi="'+qi+'"]').forEach(function(e){e.classList.add('dis');if(parseInt(e.dataset.oi)===ans)e.classList.add('co');else if(parseInt(e.dataset.oi)===oi&&!ok)e.classList.add('wo');});
+    var fb=document.getElementById('cqfb'+qi);if(fb){fb.className='mcqFb show';fb.style.cssText=ok?'background:var(--gnb);color:var(--gn2)':'background:rgba(180,50,20,.08);color:var(--rd)';fb.textContent=CHUNK_QUIZ[qi].fb;}
+    if(ok)onCorrect();
+  });
+}
+
+function renderVocab(){
+  function makeVGrid(arr,id,spkArr){
+    document.getElementById(id).innerHTML=arr.map(function(v,i){
+      return '<div class="vocabCard vcItem" data-idx="'+i+'" data-cat="'+id+'">'
+        +'<span class="vcEmo">'+v.emo+'</span>'
+        +'<span class="vcFr">'+v.fr+'</span>'
+        +'<span class="vcEn" id="'+id+'en'+i+'">'+v.en+'</span>'
+        +'<button class="vcRevBtn vcRev" data-cat="'+id+'" data-idx="'+i+'">🇬🇧 Reveal</button>'
+        +'</div>';
+    }).join('');
+  }
+  makeVGrid(FOOD_VOCAB,'foodVocab',FOOD_SPK);
+  makeVGrid(MKT_VOCAB,'marketVocab',MKT_SPK);
+
+  document.getElementById('sec2').addEventListener('click',function(ev){
+    var el=ev.target.closest('.vcItem,.vcRevBtn');if(!el)return;
+    var cat=el.dataset.cat,idx=el.dataset.idx;
+    var arr=cat==='foodVocab'?FOOD_SPK:MKT_SPK;
+    if(el.classList.contains('vcItem')&&!ev.target.closest('.vcRevBtn'))spk(arr[idx],null);
+    if(el.classList.contains('vcRevBtn')){var e2=document.getElementById(cat+'en'+idx);if(e2){e2.classList.toggle('rev');el.textContent=e2.classList.contains('rev')?'🇫🇷 Hide':'🇬🇧 Reveal';}}
+  });
+}
+
+function renderVocabQuiz(){
+  var html='';
+  VOCAB_QUIZ.forEach(function(q,i){
+    html+='<div class="mcqW"><div class="mcqQ">'+q.q+'</div>'
+      +q.opts.map(function(o,j){return '<div class="mcqO vqOpt" data-qi="'+i+'" data-oi="'+j+'" data-ans="'+q.ans+'">'+o+'</div>';}).join('')
+      +'<div class="mcqFb" id="vqfb'+i+'"></div></div>';
+  });
+  document.getElementById('vocabQuiz').innerHTML=html;
+  document.getElementById('vocabQuiz').addEventListener('click',function(ev){
+    var el=ev.target.closest('.vqOpt');if(!el)return;
+    var qi=el.dataset.qi,oi=parseInt(el.dataset.oi),ans=parseInt(el.dataset.ans);
+    if(vqDone[qi]!==undefined)return;vqDone[qi]=oi;var ok=oi===ans;
+    document.querySelectorAll('.vqOpt[data-qi="'+qi+'"]').forEach(function(e){e.classList.add('dis');if(parseInt(e.dataset.oi)===ans)e.classList.add('co');else if(parseInt(e.dataset.oi)===oi&&!ok)e.classList.add('wo');});
+    var fb=document.getElementById('vqfb'+qi);if(fb){fb.className='mcqFb show';fb.style.cssText=ok?'background:var(--gnb);color:var(--gn2)':'background:rgba(180,50,20,.08);color:var(--rd)';fb.textContent=ok?'Correct!':'Review the vocabulary cards above.';}
+    if(ok)onCorrect();
+  });
+}
+
+function renderPreps(){
+  document.getElementById('prepCards').innerHTML=PREPS.map(function(p,i){
+    return '<div class="prepCard">'
+      +'<div class="prepWord">'+p.prep+'</div>'
+      +'<div class="prepEn">'+p.en+'</div>'
+      +'<div class="prepEx fr">'+p.ex+'</div>'
+      +'<div class="prepExEn" id="peen'+i+'">'+p.exEn+'</div>'
+      +'<div class="prepEx fr" style="margin-top:6px">'+p.ex2+'</div>'
+      +'<div class="prepExEn" id="peen2'+i+'">'+p.ex2En+'</div>'
+      +'<button class="bOut prepRevBtn" data-idx="'+i+'" style="min-height:28px;font-size:.68rem;padding:0 9px;margin-top:7px">🇬🇧 Reveal</button>'
+      +'<div class="audRow" style="gap:3px;margin-top:5px">'
+      +'<button class="bTc_ prepSpk" data-idx="'+i+'" style="min-height:26px;font-size:.63rem;padding:0 8px">🔊</button>'
+      +'</div></div>';
+  }).join('');
+  document.getElementById('prepCards').addEventListener('click',function(ev){
+    var btn=ev.target.closest('button');if(!btn)return;
+    var idx=btn.dataset.idx;
+    if(btn.classList.contains('prepSpk'))spk(PREP_SPK[idx],btn);
+    if(btn.classList.contains('prepRevBtn')){
+      [document.getElementById('peen'+idx),document.getElementById('peen2'+idx)].forEach(function(e){if(e)e.classList.toggle('rev');});
+      btn.textContent=btn.textContent.includes('Reveal')?'🇫🇷 Hide':'🇬🇧 Reveal';
+    }
+  });
+}
+
+function renderPrepDrill(){
+  document.getElementById('prepDrill').innerHTML=PREP_DRILL.map(function(d,i){
+    return '<div style="background:var(--bg3);border:1.5px solid var(--bdr2);border-radius:var(--rsm);padding:11px;margin-bottom:9px">'
+      +'<div style="font-size:.59rem;font-weight:700;color:var(--bl);text-transform:uppercase;margin-bottom:4px;font-family:Syne,sans-serif">Hint: '+d.hint+'</div>'
+      +'<div style="font-size:.9rem;color:var(--txt);font-family:Spectral,serif;line-height:2">'
+      +d.s.replace('___','<input class="writeTA" id="prep'+i+'" placeholder="..." autocomplete="off" style="min-height:36px;display:inline;width:80px;font-size:.88rem;padding:3px 9px">')
+      +'</div></div>';
+  }).join('');
+}
+
+function renderDialogues(){
+  var html='';
+  DIALOGUES.forEach(function(dlg,di){
+    html+='<div style="margin-bottom:18px">'
+      +'<div class="badge bTc">💬 '+dlg.title+'</div>'
+      +'<div class="audRow" style="margin-bottom:11px">'
+      +'<button class="bTc_ dlgFullSpk" data-di="'+di+'" style="min-height:34px;font-size:.74rem">🔊 Full dialogue</button>'
+      +'<button class="bOut dlgSlowSpk" data-di="'+di+'" style="min-height:34px;font-size:.74rem">🐢 Slow</button>'
+      +'<button class="bOut dlgRevAll" data-di="'+di+'" style="min-height:34px;font-size:.74rem">🇬🇧 Reveal all English</button>'
+      +'</div>'
+      +'<div class="dialogueWrap">';
+    dlg.lines.forEach(function(l,li){
+      var isBuyer=l.role==='buyer';
+      html+='<div class="dlgLine '+(isBuyer?'buyer':'seller')+'">'
+        +'<div class="dlgAvatar '+(isBuyer?'buyer':'seller')+'">'+(isBuyer?'🙋':'🏪')+'</div>'
+        +'<div class="dlgBubble '+(isBuyer?'buyer':'seller')+'">'
+        +'<div class="dlgSpkName '+(isBuyer?'buyer':'seller')+'">'+l.spk+'</div>'
+        +'<div class="dlgFr">'+l.fr+'</div>'
+        +'<div class="dlgEnWrap" id="dlgen'+di+'_'+li+'">'+l.en+'</div>'
+        +'<button class="dlgAudBtn dlgLineSpk" data-di="'+di+'" data-li="'+li+'" data-buyer="'+(isBuyer?1:0)+'">🔊 Hear this line</button>'
+        +'</div></div>';
+    });
+    html+='</div></div>';
+  });
+  document.getElementById('dialogSection').innerHTML=html;
+  document.getElementById('dialogSection').addEventListener('click',function(ev){
+    var btn=ev.target.closest('.dlgLineSpk,.dlgFullSpk,.dlgSlowSpk,.dlgRevAll');if(!btn)return;
+    var di=btn.dataset.di;
+    if(btn.classList.contains('dlgLineSpk')){
+      var li=btn.dataset.li;var isBuyer=btn.dataset.buyer==='1';
+      spk(DIALOGUES[di].lines[li].fr,btn,isBuyer?0.82:0.87,isBuyer?0.9:1.12,!isBuyer);
+    }
+    if(btn.classList.contains('dlgFullSpk')){
+      var txt=DIALOGUES[di].lines.map(function(l,i){return l.fr;}).join('. ');spk(txt,btn);
+    }
+    if(btn.classList.contains('dlgSlowSpk')){
+      var txt2=DIALOGUES[di].lines.map(function(l){return l.fr;}).join('. ');spk(txt2,btn,.6);
+    }
+    if(btn.classList.contains('dlgRevAll')){
+      DIALOGUES[di].lines.forEach(function(l,li){
+        var el=document.getElementById('dlgen'+di+'_'+li);if(el)el.classList.toggle('rev');
+      });
+    }
+  });
+}
+
+function renderDialogQs(){
+  var html='';
+  DIALOG_QS.forEach(function(q,i){
+    html+='<div class="mcqW"><div class="mcqFrQ">'+q.fr+'</div><div class="mcqEnQ">'+q.en+'</div>'
+      +'<button class="bTc_ dqAud" data-idx="'+i+'" style="min-height:28px;font-size:.68rem;padding:0 10px;margin-bottom:7px">🔊 Hear question</button>';
+    if(q.type==='mcq'){
+      html+=q.opts.map(function(o,j){return '<div class="mcqO dqOpt" data-qi="'+i+'" data-oi="'+j+'" data-ans="'+q.ans+'">'+o+'</div>';}).join('');
+    }else{
+      html+='<div class="mcqO dqTF" data-qi="'+i+'" data-tv="true" data-cor="'+q.cor+'">✅ Vrai / True</div>'
+        +'<div class="mcqO dqTF" data-qi="'+i+'" data-tv="false" data-cor="'+q.cor+'">❌ Faux / False</div>';
+    }
+    html+='<div class="mcqFb" id="dqfb'+i+'"></div></div>';
+  });
+  document.getElementById('dialogQs').innerHTML=html;
+  document.getElementById('dialogQs').addEventListener('click',function(ev){
+    var el=ev.target.closest('.dqOpt,.dqTF,.dqAud');if(!el)return;
+    if(el.classList.contains('dqAud')){spk(DIALOG_QS[el.dataset.idx].q,el);return;}
+    var qi=el.dataset.qi;if(dqDone[qi]!==undefined)return;
+    var ok=false;
+    if(el.classList.contains('dqOpt')){
+      var oi=parseInt(el.dataset.oi),ans=parseInt(el.dataset.ans);dqDone[qi]=oi;ok=oi===ans;
+      document.querySelectorAll('.dqOpt[data-qi="'+qi+'"]').forEach(function(e){e.classList.add('dis');if(parseInt(e.dataset.oi)===ans)e.classList.add('co');else if(parseInt(e.dataset.oi)===oi&&!ok)e.classList.add('wo');});
+    }else{
+      var tv=el.dataset.tv==='true',cor=el.dataset.cor==='true';dqDone[qi]=tv;ok=tv===cor;
+      document.querySelectorAll('.dqTF[data-qi="'+qi+'"]').forEach(function(e){e.classList.add('dis');var etv=e.dataset.tv==='true';if(etv===cor)e.classList.add('co');else if(etv===tv&&!ok)e.classList.add('wo');});
+    }
+    var fb=document.getElementById('dqfb'+qi);if(fb){fb.className='mcqFb show';fb.style.cssText=ok?'background:var(--gnb);color:var(--gn2)':'background:rgba(180,50,20,.08);color:var(--rd)';fb.textContent=DIALOG_QS[qi].fb;}
+    if(ok)onCorrect();
+  });
+}
+
+function renderAnnouncements(){
+  var html='';
+  ANNOUNCEMENTS.forEach(function(a,i){
+    html+='<div class="announceBoard">'
+      +'<div class="announceLabel">📢 '+a.title+'</div>'
+      +'<div class="announceTxt">'+a.text+'</div>'
+      +'<div class="announceEnWrap" id="aen'+i+'">'+a.en+'</div>'
+      +'<div class="audRow" style="margin-top:11px">'
+      +'<button class="bYw_ annSpk" data-idx="'+i+'" style="min-height:34px;font-size:.74rem">🔊 Listen</button>'
+      +'<button class="bOut annSlow" data-idx="'+i+'" style="min-height:34px;font-size:.74rem">🐢 Slow</button>'
+      +'<button class="bOut annRevEn" data-idx="'+i+'" style="min-height:34px;font-size:.73rem">🇬🇧 Show English</button>'
+      +'<button class="bOut annKw" data-idx="'+i+'" style="min-height:34px;font-size:.73rem">🔑 Keywords</button>'
+      +'</div>'
+      +'<div class="keywordsBox" id="kw'+i+'">'
+      +'<div class="kwLabel">🔑 Key words in this announcement</div>'
+      +'<div class="kwRow">'+a.keywords.map(function(k){return '<div class="kwChip kwSpk" data-word="'+k+'">'+k+'</div>';}).join('')+'</div>'
+      +'</div></div>';
+  });
+  document.getElementById('announceSection').innerHTML=html;
+  document.getElementById('announceSection').addEventListener('click',function(ev){
+    var btn=ev.target.closest('button,.kwSpk');if(!btn)return;
+    var idx=btn.dataset.idx;
+    if(btn.classList.contains('annSpk'))spk(ANN_SPK[idx],btn,.78);
+    if(btn.classList.contains('annSlow'))spk(ANN_SPK[idx],btn,.55);
+    if(btn.classList.contains('annRevEn')){var e=document.getElementById('aen'+idx);if(e){e.classList.toggle('rev');btn.textContent=e.classList.contains('rev')?'🇫🇷 Hide English':'🇬🇧 Show English';}}
+    if(btn.classList.contains('annKw')){var k=document.getElementById('kw'+idx);if(k){k.classList.toggle('show');btn.textContent=k.classList.contains('show')?'🔑 Hide keywords':'🔑 Keywords';}}
+    if(btn.classList.contains('kwSpk'))spk(btn.dataset.word,null);
+  });
+}
+
+function renderAnnounceQs(){
+  var html='';
+  ANNOUNCE_QS.forEach(function(q,i){
+    html+='<div class="mcqW"><div class="mcqQ">'+q.q+'</div><div style="font-size:.71rem;color:var(--mut);font-style:italic;margin-bottom:8px">'+q.en+'</div>'
+      +'<button class="bTc_ aqAud" data-idx="'+i+'" style="min-height:28px;font-size:.68rem;padding:0 10px;margin-bottom:7px">🔊 Hear question</button>'
+      +q.opts.map(function(o,j){return '<div class="mcqO aqOpt" data-qi="'+i+'" data-oi="'+j+'" data-ans="'+q.ans+'">'+o+'</div>';}).join('')
+      +'<div class="mcqFb" id="aqfb'+i+'"></div></div>';
+  });
+  document.getElementById('announceQs').innerHTML=html;
+  document.getElementById('announceQs').addEventListener('click',function(ev){
+    var el=ev.target.closest('.aqOpt,.aqAud');if(!el)return;
+    if(el.classList.contains('aqAud')){spk(ANNOUNCE_QS[el.dataset.idx].q,el);return;}
+    var qi=el.dataset.qi,oi=parseInt(el.dataset.oi),ans=parseInt(el.dataset.ans);
+    if(aqDone[qi]!==undefined)return;aqDone[qi]=oi;var ok=oi===ans;
+    document.querySelectorAll('.aqOpt[data-qi="'+qi+'"]').forEach(function(e){e.classList.add('dis');if(parseInt(e.dataset.oi)===ans)e.classList.add('co');else if(parseInt(e.dataset.oi)===oi&&!ok)e.classList.add('wo');});
+    var fb=document.getElementById('aqfb'+qi);if(fb){fb.className='mcqFb show';fb.style.cssText=ok?'background:var(--gnb);color:var(--gn2)':'background:rgba(180,50,20,.08);color:var(--rd)';fb.textContent=ANNOUNCE_QS[qi].fb;}
+    if(ok)onCorrect();
+  });
+}
+
+function renderFinalQuiz(){
+  var html='';
+  FINAL_QS.forEach(function(q,i){
+    html+='<div class="mcqW"><div style="font-size:.59rem;font-weight:700;color:var(--tc2);text-transform:uppercase;margin-bottom:6px;font-family:Syne,sans-serif">Q'+(i+1)+'</div>'
+      +'<div class="mcqQ">'+q.q+'</div>'
+      +q.opts.map(function(o,j){return '<div class="mcqO fqOpt" data-qi="'+i+'" data-oi="'+j+'" data-ans="'+q.ans+'">'+o+'</div>';}).join('')
+      +'<div class="mcqFb" id="fqfb'+i+'"></div></div>';
+  });
+  document.getElementById('finalQuiz').innerHTML=html;
+  document.getElementById('finalQuiz').addEventListener('click',function(ev){
+    var el=ev.target.closest('.fqOpt');if(!el)return;
+    var qi=el.dataset.qi,oi=parseInt(el.dataset.oi),ans=parseInt(el.dataset.ans);
+    if(quizDone[qi]!==undefined)return;quizDone[qi]=oi;var ok=oi===ans;
+    document.querySelectorAll('.fqOpt[data-qi="'+qi+'"]').forEach(function(e){e.classList.add('dis');if(parseInt(e.dataset.oi)===ans)e.classList.add('co');else if(parseInt(e.dataset.oi)===oi&&!ok)e.classList.add('wo');});
+    var fb=document.getElementById('fqfb'+qi);if(fb){fb.className='mcqFb show';fb.style.cssText=ok?'background:var(--gnb);color:var(--gn2)':'background:rgba(180,50,20,.08);color:var(--rd)';fb.textContent=ok?'Correct!':'Review vocabulary and prepositions.';}
+    if(ok)onCorrect();
+    var done=Object.keys(quizDone).length;
+    if(done===FINAL_QS.length){document.getElementById('reflWrap').style.display='block';playSectionDing();}
+  });
+}
+
+function renderRefl(){
+  var qs=[{id:'r1',q:'Which market phrase are you most excited to use?'},{id:'r2',q:'Write one French sentence using a preposition (à, de, avec, sans, pour, chez, dans).'},{id:'r3',q:'Where in real life could you use your French from today?'}];
+  document.getElementById('reflQs').innerHTML=qs.map(function(q){return '<div style="background:var(--bg3);border:1.5px solid var(--bdr2);border-radius:var(--r);padding:12px;margin-bottom:10px"><div style="font-size:.82rem;font-weight:700;color:var(--txt);margin-bottom:6px">'+q.q+' <span style="font-size:.69rem;color:var(--mut);font-weight:400">(optional)</span></div><textarea class="writeTA" id="'+q.id+'" rows="2" style="min-height:50px;font-size:.87rem"></textarea></div>';}).join('');
+}
+
+function renderStarters(){
+  function make(arr,id,targetId){
+    document.getElementById(id).innerHTML=arr.map(function(s){return '<div class="starterC starterEl" data-target="'+targetId+'">'+s+'</div>';}).join('');
+  }
+  make(SHOP_STARTERS,'shopStarters','shopTA');
+  make(FREE_STARTERS,'freeStarters','freeTA');
+}
+
+document.addEventListener('click',function(ev){
+  var el=ev.target.closest('.starterEl');if(!el)return;
+  var ta=document.getElementById(el.dataset.target);if(!ta)return;
+  ta.value+=(ta.value&&!ta.value.endsWith('\n')?'\n':'')+el.textContent+' ';ta.focus();
+  ta.id==='shopTA'?updateWC('shopWC','shopTA'):updateWC('freeWC','freeTA');
+});
+
+function updateWC(wcId,taId){
+  var t=document.getElementById(taId).value.trim();
+  document.getElementById(wcId).textContent=(t?t.split(/\s+/).filter(function(w){return w.length>0;}).length:0)+' words';
+}
+
+// ─── CHECK FUNCTIONS ───
+function checkCQ(){
+  var tot=Object.keys(cqDone).filter(function(i){return cqDone[i]===CQ_ANSWERS[i];}).length;
+  document.getElementById('cqScoreN').textContent=tot+'/5';document.getElementById('cqScore').classList.add('show');
+  if(tot>=4){playSectionDing();confetti();}
+}
+function checkVQ(){
+  var anss=[2,1,2,2,2,1];var tot=Object.keys(vqDone).filter(function(i){return vqDone[i]===anss[i];}).length;
+  document.getElementById('vqScoreN').textContent=tot+'/6';document.getElementById('vqScore').classList.add('show');
+  if(tot>=5){playSectionDing();confetti();}
+}
+function checkDQ(){
+  var mcqAns=[1,2,1,2,2,2];var tot=0;
+  DIALOG_QS.forEach(function(q,i){
+    if(q.type==='mcq'&&dqDone[i]===mcqAns[i])tot++;
+    if(q.type==='tf'&&dqDone[i]===q.cor)tot++;
+  });
+  document.getElementById('dqScoreN').textContent=tot+'/7';document.getElementById('dqScore').classList.add('show');
+  if(tot>=5){playSectionDing();confetti();}
+}
+function checkAQ(){
+  var anss=[2,3,1,2,2,1];var tot=Object.keys(aqDone).filter(function(i){return aqDone[i]===anss[i];}).length;
+  document.getElementById('aqScoreN').textContent=tot+'/6';document.getElementById('aqScore').classList.add('show');
+  if(tot>=4){playSectionDing();confetti();}
+}
+function checkPrep(){
+  var anss=['au','de','sans','pour','chez','dans','avec'];var ok=0;
+  anss.forEach(function(a,i){
+    var inp=document.getElementById('prep'+i);if(!inp)return;
+    var v=inp.value.trim().toLowerCase();var good=v===a;
+    inp.style.border=good?'2px solid var(--gn)':'2px solid var(--rd)';
+    if(good)ok++;
+  });
+  var pct=Math.round(ok/anss.length*100);
+  var fb=document.getElementById('prepFb');fb.style.display='block';
+  fb.style.cssText=pct>=71?'background:var(--gnb);color:var(--gn2)':'background:rgba(180,50,20,.08);color:var(--rd)';
+  fb.innerHTML=ok+'/'+anss.length+' correct. Answers: <em>au, de, sans, pour, chez, dans, avec</em>';
+  if(pct>=71){playChime();confetti();}
+}
+function resetPrep(){PREP_DRILL.forEach(function(d,i){var inp=document.getElementById('prep'+i);if(inp){inp.value='';inp.style.border='';}});document.getElementById('prepFb').style.display='none';}
+
+async function checkShop(){
+  var txt=document.getElementById('shopTA').value.trim();
+  var wc=txt.split(/\s+/).filter(function(w){return w.length>0;}).length;
+  if(wc<15){showCoach('Write at least 4 sentences for your announcement!',4000);return;}
+  var c=document.getElementById('shopCoach');var ct=document.getElementById('shopCoachTxt');
+  c.classList.add('show');ct.innerHTML='<div class="cfbLoad">👩🏾‍🏫 Reading your shop announcement...</div>';
+  try{
+    var r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:AM,max_tokens:320,messages:[{role:'user',content:'Coach Linda reviewing A0-A1 French student shop opening announcement ('+wc+' words): "'+txt+'". Check: (1) days used correctly (lundi, mardi etc.) (2) times expressed correctly (de X heures à Y heures) (3) ouvert/fermé used and agreed correctly (4) prepositions de/à/du/au used correctly (5) any other grammar errors. Give warm Socratic feedback: praise what is specific and correct, guide 1-2 errors gently with the correction and why. Max 5 sentences. English.'}]})});
+    var d=await r.json();ct.innerHTML='<p>'+(d.content&&d.content[0]?d.content[0].text:'Great announcement!')+'</p>';playChime();
+  }catch(e){ct.innerHTML='<p>Check: Did you use du lundi au samedi? De... heures à... heures? Ouvert or fermée (check gender agreement)?</p>';}
+}
+
+async function checkFree(){
+  var txt=document.getElementById('freeTA').value.trim();
+  var wc=txt.split(/\s+/).filter(function(w){return w.length>0;}).length;
+  if(wc<15){showCoach('Write at least 5 sentences before getting feedback!',4000);return;}
+  var c=document.getElementById('freeCoach');var ct=document.getElementById('freeCoachTxt');
+  c.classList.add('show');ct.innerHTML='<div class="cfbLoad">👩🏾‍🏫 Coach Linda reviewing your market description...</div>';
+  try{
+    var r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:AM,max_tokens:400,messages:[{role:'user',content:'Coach Linda giving full word-level Socratic correction for A0-A1 French student market description ('+wc+' words): "'+txt+'". This lesson covered: market vocabulary (tomate, oignon, vendeur, marché, prix, frais, ouvert/fermé), prepositions (à/de/avec/sans/pour/chez/dans), market phrases, announcements, days/times. Check: (1) market vocabulary used correctly (2) prepositions correct (3) verb conjugation (4) gender/number agreement (5) accents. Structure feedback: praise specifics, then for max 3 errors quote wrong phrase, show correct form, explain the grammar rule simply. End with one real-life encouragement. Warm Socratic tone. Max 7 sentences. English.'}]})});
+    var d=await r.json();ct.innerHTML='<p>'+(d.content&&d.content[0]?d.content[0].text:'Great writing!')+'</p>';confetti();playChime();
+  }catch(e){ct.innerHTML='<p>Check: Are prepositions correct? Are verbs conjugated? Did you use market vocabulary from today?</p>';}
+}
+
+// ─── COMPLETE ───
+function completeLesson(){
+  var tot=FINAL_QS.filter(function(q,i){return quizDone[i]===q.ans;}).length;
+  var qs=Math.round(tot/FINAL_QS.length*100);
+  document.getElementById('quizScN').textContent=tot+'/'+FINAL_QS.length;
+  document.getElementById('quizScLbl').textContent=qs>=90?'Excellent!':qs>=70?'Tres bien!':'Keep going!';
+  document.getElementById('quizSc').classList.add('show');
+  var sw=(document.getElementById('shopTA').value||'').split(/\s+/).filter(function(w){return w.length>0;}).length;
+  var fw=(document.getElementById('freeTA').value||'').split(/\s+/).filter(function(w){return w.length>0;}).length;
+  document.getElementById('stWords').textContent=sw+fw;
+  document.getElementById('stQuiz').textContent=qs+'%';
+  document.getElementById('certItems').innerHTML=CAN_DO_ITEMS.map(function(item){return '<div class="certItem"><span class="certCheckmark">✅</span><span>'+item+'</span></div>';}).join('');
+  document.querySelectorAll('.sec').forEach(function(s){s.classList.remove('show');});
+  document.getElementById('compSc').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(function(){playFanfare();confetti();setTimeout(confetti,800);setTimeout(confetti,1600);},300);
+  showCoach('Jour 15 complete! You can now shop at any French market with confidence!',12000);
+  saveAT(sw+fw,qs);
+}
+
+async function saveAT(wc,qs){
+  var now=new Date().toISOString();
+  try{
+    await postAT(AT_L,{studentName:sN,studentEmail:sE,lessonNumber:15,lessonTopic:'Au Marche - Chunks - Prepositions - Dialogues - Annonces',submissionText:(document.getElementById('freeTA').value||'').substring(0,600),wordsWritten:wc,writingScore:qs,vocabularyScore:qs,grammarScore:qs,submittedAt:now});
+    await postAT(AT_S,{studentName:sN,studentEmail:sE,speechTranscript:'Jour15 Marche: '+spkN+' speaking sessions',wordsSpoken:spkN*7,uniqueVocabularyCount:spkN*5,grammarComplexityLevel:'A1',grammarAccuracyScore:qs,fluencyRating:Math.min(10,spkN),confidenceRating:Math.min(10,spkN+2),submittedAt:now});
+    await postAT(AT_R,{studentName:sN,studentEmail:sE,whatFeltHardToday:(document.getElementById('r1')&&document.getElementById('r1').value)||'—',biggestWin:'Quiz:'+qs+'% · Correct answers: '+totalCorrect,whatSurprisedYouToday:(document.getElementById('r2')&&document.getElementById('r2').value)||'—',motivationLevel:mE==='🔥'?10:mE==='😄'?8:mE==='🙂'?6:mE==='😐'?4:3,submittedAt:now});
+    showToast('Progress saved!');document.getElementById('saveCon').style.display='block';
+  }catch(e){localStorage.setItem('ffl_d15_'+sE,JSON.stringify({sN:sN,sE:sE,qs:qs,ts:now}));}
+}
+async function postAT(t,f){var r=await fetch('https://api.airtable.com/v0/'+AT_BASE+'/'+encodeURIComponent(t),{method:'POST',headers:{'Authorization':'Bearer '+AT_TOKEN,'Content-Type':'application/json'},body:JSON.stringify({fields:f})});if(!r.ok)throw new Error();return r.json();}
+
+// ─── UI UTILS ───
+function showCoach(msg,dur){document.getElementById('cbTxt').textContent=msg;document.getElementById('cb').classList.add('show');if(cTmr)clearTimeout(cTmr);if(dur>0)cTmr=setTimeout(function(){document.getElementById('cb').classList.remove('show');},dur);}
+function toggleCoach(){var msgs=["'C'est combien ?' — say this at every market and every shop window. It works everywhere!","Market tip: 'C'est frais ?' (Is it fresh?) will make any vendor smile and prove you know your stuff.","Preposition tip: 'au' = à + le. So 'Je vais à le marché' becomes 'Je vais au marché'.","'Et avec ça ?' — when a vendor says this, they want to know if you need anything else!","Gender matters: ouvert is masculine, ouverte is feminine. Ma boutique est ouverte (feminine).","Negotiation in French is polite and natural at open-air markets. 'Vous pouvez faire un effort ?' works!","'Chez' means 'at someone's place' — chez moi (at my place), chez le boucher (at the butcher's).","The Can Do certificate at the end is REAL — these are skills you genuinely now have in French!"];document.getElementById('cb').classList.contains('show')?document.getElementById('cb').classList.remove('show'):showCoach(msgs[Math.floor(Math.random()*msgs.length)],8000);}
+function showStreakToast(msg){var el=document.getElementById('streakToast');el.textContent=msg;el.style.display='block';setTimeout(function(){el.style.display='none';},2500);}
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(function(){t.style.display='none';},4000);}
+function confetti(){var box=document.getElementById('cfB');box.style.display='block';box.innerHTML='';['#C8890A','#2E7D32','#C14E28','#2B5EA7','#1A1A0A'].forEach(function(col){for(var i=0;i<8;i++){var cf=document.createElement('div');cf.className='cf';cf.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*12+'%;background:'+col+';animation-delay:'+Math.random()*.8+'s;animation-duration:'+(1.5+Math.random())+'s';box.appendChild(cf);}});setTimeout(function(){box.style.display='none';box.innerHTML='';},2800);}
+function openDict(){document.getElementById('dictP').classList.add('open');setTimeout(function(){document.getElementById('dpW').focus();},280);}
+function closeDict(){document.getElementById('dictP').classList.remove('open');}
+function dpLookup(){var w=document.getElementById('dpW').value.trim();if(!w)return;var enc=encodeURIComponent(w);document.getElementById('dpLks').innerHTML='<div class="dpLk" data-url="https://context.reverso.net/translation/french-english/'+enc+'">🔍 Reverso</div><div class="dpLk" data-url="https://www.wordreference.com/fren/'+enc+'">📖 WordRef</div><div class="dpLk" data-url="https://fr.wiktionary.org/wiki/'+enc+'">📚 Wiktionnaire</div>';spk(w,null);}
+
+// ─── SETUP ───
+function setupAllEvents(){
+  document.getElementById('mSRow').addEventListener('click',function(ev){var b=ev.target.closest('.moodBtn');if(b)selMood(b,false);});
+  document.getElementById('mERow').addEventListener('click',function(ev){var b=ev.target.closest('.moodBtn');if(b)selMood(b,true);});
+  document.getElementById('wStartBtn').addEventListener('click',startLesson);
+  document.getElementById('coachAv').addEventListener('click',toggleCoach);
+  document.getElementById('dictFab').addEventListener('click',openDict);
+  document.getElementById('dpX').addEventListener('click',closeDict);
+  document.getElementById('dpGo').addEventListener('click',dpLookup);
+  document.getElementById('dpW').addEventListener('keydown',function(e){if(e.key==='Enter')dpLookup();});
+  document.getElementById('dpLks').addEventListener('click',function(ev){var el=ev.target.closest('.dpLk');if(el)window.open(el.dataset.url,'dict','width=960,height=640,scrollbars=yes');});
+  document.getElementById('dotsW').addEventListener('click',function(ev){var el=ev.target.closest('.dot');if(el){var n=parseInt(el.id.replace('dot',''));if(n)goSec(n);}});
+  document.getElementById('musicToggle').addEventListener('click',function(){
+    if(musicPlaying){stopCafeMusic();this.classList.remove('on');this.title='Background music (off)';}
+    else{startCafeMusic();this.classList.add('on');this.title='Background music (on)';}
+  });
+  // Nav
+  [['s1Next',2],['s2Prev',1],['s2Next',3],['s3Prev',2],['s3Next',4],['s4Prev',3],['s4Next',5],['s5Prev',4],['s5Next',6],['s6Prev',5],['s6Next',7],['s7Prev',6]].forEach(function(p){var el=document.getElementById(p[0]);if(el)el.addEventListener('click',function(){goSec(p[1]);});});
+  // Sec 1
+  document.getElementById('checkCQBtn').addEventListener('click',checkCQ);
+  document.getElementById('resetCQBtn').addEventListener('click',function(){cqDone={};renderChunkQuiz();document.getElementById('cqScore').classList.remove('show');});
+  // Sec 2
+  document.getElementById('hearAllFoodBtn').addEventListener('click',function(){spk(FOOD_SPK.join('. '),this);});
+  document.getElementById('revAllFoodBtn').addEventListener('click',function(){document.querySelectorAll('[id^="foodVocaben"]').forEach(function(e){e.classList.add('rev');});});
+  document.getElementById('hearAllMktBtn').addEventListener('click',function(){spk(MKT_SPK.join('. '),this);});
+  document.getElementById('revAllMktBtn').addEventListener('click',function(){document.querySelectorAll('[id^="marketVocaben"]').forEach(function(e){e.classList.add('rev');});});
+  document.getElementById('checkVQBtn').addEventListener('click',checkVQ);
+  document.getElementById('resetVQBtn').addEventListener('click',function(){vqDone={};renderVocabQuiz();document.getElementById('vqScore').classList.remove('show');});
+  // Sec 3
+  document.getElementById('checkPrepBtn').addEventListener('click',checkPrep);
+  document.getElementById('resetPrepBtn').addEventListener('click',resetPrep);
+  // Sec 4
+  document.getElementById('checkDQBtn').addEventListener('click',checkDQ);
+  document.getElementById('resetDQBtn').addEventListener('click',function(){dqDone={};renderDialogQs();document.getElementById('dqScore').classList.remove('show');});
+  // Sec 5
+  document.getElementById('checkAQBtn').addEventListener('click',checkAQ);
+  document.getElementById('resetAQBtn').addEventListener('click',function(){aqDone={};renderAnnounceQs();document.getElementById('aqScore').classList.remove('show');});
+  // Sec 6
+  document.getElementById('modelSpkBtn').addEventListener('click',function(){spk('Ma boutique est ouverte du lundi au samedi, de neuf heures à dix-huit heures. Nous sommes fermés le dimanche.',this);});
+  document.getElementById('checkShopBtn').addEventListener('click',checkShop);
+  document.getElementById('shopSpkBtn').addEventListener('click',function(){spk(document.getElementById('shopTA').value,this);});
+  document.getElementById('shopSttBtn').addEventListener('click',function(){startSTT('shopTA','shopSttLive',this);});
+  document.getElementById('shopTA').addEventListener('input',function(){updateWC('shopWC','shopTA');});
+  document.getElementById('checkFreeBtn').addEventListener('click',checkFree);
+  document.getElementById('freeSpkBtn').addEventListener('click',function(){spk(document.getElementById('freeTA').value,this);});
+  document.getElementById('freeSttBtn').addEventListener('click',function(){startSTT('freeTA','freeSttLive',this);});
+  document.getElementById('freeClearBtn').addEventListener('click',function(){document.getElementById('freeTA').value='';document.getElementById('freeWC').textContent='0 words';document.getElementById('freeCoach').classList.remove('show');});
+  document.getElementById('freeTA').addEventListener('input',function(){updateWC('freeWC','freeTA');});
+  // Sec 7
+  document.getElementById('completeBtn').addEventListener('click',completeLesson);
+}
+
+function startLesson(){
+  var n=document.getElementById('wName').value.trim();var e=document.getElementById('wEmail').value.trim();
+  var ok=true;
+  if(!n){document.getElementById('wName').classList.add('werr');document.getElementById('wNE').style.display='block';ok=false;}else{document.getElementById('wName').classList.remove('werr');document.getElementById('wNE').style.display='none';}
+  if(!e||!e.includes('@')){document.getElementById('wEmail').classList.add('werr');document.getElementById('wEE').style.display='block';ok=false;}else{document.getElementById('wEmail').classList.remove('werr');document.getElementById('wEE').style.display='none';}
+  if(!ok)return;
+  sN=n;sE=e;document.getElementById('wModal').style.display='none';document.getElementById('dictFab').style.display='flex';
+  try{buildUI();}catch(err){console.warn('BuildUI:',err);}
+  showCoach('Bienvenue '+sN.split(' ')[0]+'! Jour 15 — bienvenue au marche! Ready to shop in French?',8000);
+}
+
+function buildUI(){
+  buildDots();buildPS();
+  renderChunks();renderChunkQuiz();
+  renderVocab();renderVocabQuiz();
+  renderPreps();renderPrepDrill();
+  renderDialogues();renderDialogQs();
+  renderAnnouncements();renderAnnounceQs();
+  renderStarters();
+  buildAccentBar('acBarShop','shopTA');buildAccentBar('acBarFree','freeTA');
+  renderFinalQuiz();renderRefl();
+  updProg();
+}
+document.addEventListener('DOMContentLoaded',function(){setupAllEvents();});
+</script></body></html>
